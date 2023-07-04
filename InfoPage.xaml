@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SBSimulatorMaui.InfoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="InfoPage"
+    BackgroundColor="#F5F6F1">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack" />
+    </Shell.BackButtonBehavior>
+    <ScrollView Margin="0,30,0,30">
+        <StackLayout Spacing="130">
+            <Label
+                Margin="0,30,0,0"
+                FontFamily="MPlus1pBlack"
+                FontSize="60"
+                HorizontalOptions="Center"
+                Text="しりバトシミュレーター"
+                VerticalOptions="Center" />
+            <Grid Margin="60,0,0,-10" ColumnDefinitions="1.5*,*,*">
+                <Label
+                    FontFamily="MPlus1pRegular"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="現在のバージョン"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblVersion"
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="53"
+                    HorizontalOptions="Center"
+                    Text="v0.1.0"
+                    VerticalOptions="Center" />
+                <Line
+                    Grid.ColumnSpan="2"
+                    Background="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+            </Grid>
+            <Grid ColumnDefinitions=".6*,.5*,*,1.2*" Margin="0,0,0,-10">
+                <Label
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="制作者"
+                    VerticalOptions="Center" />
+                <Label
+                    Margin="50,0,0,0"
+                    Grid.Column="2"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="50"
+                    HorizontalOptions="Center"
+                    Text="ゟいたー"
+                    VerticalOptions="Center" />
+                <Grid
+                    Margin="0,-40,0,0"
+                    Grid.Column="3"
+                    ColumnDefinitions="*,*,*,*"
+                    RowDefinitions="*,*"
+                    ColumnSpacing="2"
+                    Scale="0.85">
+                    <ImageButton
+                        x:Name="BtnYouTube"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Source="youtube.png"
+                        Background="Transparent"
+                        Scale="1.35"
+                        Clicked="BtnYouTube_Clicked"/>
+                    <ImageButton
+                        x:Name="BtnTwitter"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Source="twitter.png"
+                        Background="Transparent"
+                        Scale="0.9"
+                        Clicked="BtnTwitter_Clicked"/>
+                    <Image
+                        Grid.RowSpan="2"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="20"
+                        Source="lighter.jpg"/>
+                </Grid>
+                <Line
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Background="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End"
+                    Margin="-20,0,15,0"/>
+            </Grid>
+            <Grid Margin="60,0,0,30" ColumnDefinitions="*,1.3*,.3*,.5*">
+                <Label
+                    FontFamily="MPlus1pRegular"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="オリジナル"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="50"
+                    HorizontalOptions="Center"
+                    Text="しりとりバトル"
+                    VerticalOptions="Center" />
+                <ImageButton
+                    x:Name="BtnOriginal"
+                    Margin="-70,0,0,0"
+                    Grid.Column="2"
+                    Source="extern.png"
+                    Background="Transparent"
+                    Scale="0.25"
+                    Clicked="BtnOriginal_Clicked"/>
+                <Line
+                    Margin="0,-30,0,30"
+                    Grid.ColumnSpan="3"
+                    Background="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+            </Grid>
+            <Grid ColumnDefinitions=".5*,0.2*,*" Margin="0,-140,50,-10">
+                <Image
+                    Source="animal.gif"
+                    Scale="0.6"/>
+                <Label
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="BGM"
+                    VerticalOptions="Center" />
+                <Label
+                    Margin="50,0,0,0"
+                    Grid.Column="2"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="50"
+                    HorizontalOptions="Center"
+                    Text="騒音のない世界"
+                    VerticalOptions="Center" />
+                <Line
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Background="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End"
+                    Margin="-40,-80,15,80"/>
+            </Grid>
+            <Grid Margin="60,-160,0,30" ColumnDefinitions="0.9*,*,*">
+                <Label
+                    FontFamily="MPlus1pRegular"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="SE"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="52"
+                    HorizontalOptions="Center"
+                    Text="効果音ラボ"
+                    VerticalOptions="Center" />
+                <Image
+                    Grid.Column="2"
+                    Source="bug.gif"
+                    Scale="0.6"/>
+                <Line
+                    Grid.ColumnSpan="2"
+                    Background="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End"
+                    Margin="60,-120,-30,120"/>
+            </Grid>
+            <Grid ColumnDefinitions="0.2*,0.4*,.5*,0.1*" Margin="0,-120,80,-10">
+                <Label
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="写真素材"
+                    VerticalOptions="Center" />
+                <Label
+                    Margin="0,0,0,5"
+                    Grid.Column="2"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="60"
+                    HorizontalOptions="Center"
+                    Text="photoAC"
+                    VerticalOptions="Center" />
+                <Line
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Background="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End"
+                    Margin="-20,0,-10,0"/>
+            </Grid>
+            <Grid Margin="60,-70,0,30" ColumnDefinitions="*,1.3*,*">
+                <Label
+                    FontFamily="MPlus1pRegular"
+                    FontSize="42"
+                    HorizontalOptions="Center"
+                    Text="イラスト素材"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="50"
+                    HorizontalOptions="Center"
+                    Text="いらすとや"
+                    VerticalOptions="Center" />
+                <Image
+                    Grid.Column="2"
+                    Source="weather.gif"
+                    Scale="0.6"/>
+                <Line
+                    Margin="0,-110,0,110"
+                    Grid.ColumnSpan="2"
+                    Background="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+            </Grid>
+            <Label
+                FontFamily="MPlus1pRegular"
+                FontAttributes="Bold"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Text="協力"
+                FontSize="60"
+                Margin="0,-70,0,0"/>
+            <Line
+                HorizontalOptions="Fill"
+                Margin="160,-120,160,120"
+                Background="Black"
+                VerticalOptions="Center"/>
+            <Label
+                FontFamily="MPlus1pRegular"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Text="オープンチャットの方々"
+                FontSize="43"
+                Margin="0,-170,0,0"/>
+            <Label
+                FontFamily="MPlus1pRegular"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Text="しりバトWikiの方々"
+                FontSize="43"
+                Margin="0,-70,0,0"/>
+            <Line
+                HorizontalOptions="Fill"
+                Margin="160,-80,160,80"
+                Background="Black"
+                VerticalOptions="Center"/>
+            <Label
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                LineHeight="2"
+                HorizontalTextAlignment="Center"
+                FontSize="39">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="しりバトシミュレーターは、&#10;" FontFamily="MPlus1pRegular"/>
+                        <Span Text="ブラウザゲーム「" FontFamily="MPlus1pRegular"/>
+                        <Span Text="しりとりバトル" FontFamily="MPlus1pRegular" TextColor="DodgerBlue" FontAttributes="Bold"/>
+                        <Span Text="」をもとに&#10;" FontFamily="MPlus1pRegular"/>
+                        <Span Text="開発されたアプリケーションです。&#10;&#10;" FontFamily="MPlus1pRegular"/>
+                        <Span Text="本アプリに関するすべての権利は、&#10;" FontFamily="MPlus1pRegular"/>
+                        <Span Text="「しりとりバトル」の制作者である&#10;" FontFamily="MPlus1pRegular"/>
+                        <Span Text="ささみJP" FontFamily="MPlus1pRegular" TextColor="DodgerBlue" FontAttributes="Bold"/>
+                        <Span Text="氏に帰属します。&#10;&#10;" FontFamily="MPlus1pRegular"/>
+                        <Span Text="本アプリの二次配布、及び商用利用を&#10;" FontFamily="MPlus1pRegular"/>
+                        <Span Text="固く禁止いたします。" FontFamily="MPlus1pRegular"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

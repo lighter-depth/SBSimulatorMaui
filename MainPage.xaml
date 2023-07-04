@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SBSimulatorMaui.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="#F5F6F1">
+
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".6*" />
+                <RowDefinition Height=".25*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="2.5*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height=".6*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Row="1"
+                Grid.ColumnSpan="5"
+                FontFamily="MPlus1pRegular"
+                FontSize="25"
+                HorizontalOptions="Center"
+                Text="タイプ相性のついた"
+                VerticalOptions="Center" />
+
+            <Label
+                x:Name="LblTitle"
+                Grid.Row="2"
+                Grid.ColumnSpan="5"
+                FontAttributes="Bold"
+                FontFamily="MPlus1pBlack"
+                FontSize="65"
+                HorizontalOptions="Center"
+                Text="しりバトシミュレーター"
+                VerticalOptions="Center" />
+            <FlexLayout
+                Grid.Row="3"
+                Grid.ColumnSpan="5"
+                Margin="80,30,80,60"
+                JustifyContent="Center"
+                Wrap="Wrap">
+                <Image Source="normal.gif" WidthRequest="80" />
+                <Image Source="animal.gif" WidthRequest="80" />
+                <Image Source="emote.gif" WidthRequest="80" />
+                <Image Source="food.gif" WidthRequest="80" />
+                <Image Source="violence.gif" WidthRequest="80" />
+                <Image Source="society.gif" WidthRequest="80" />
+                <Image Source="insult.gif" WidthRequest="80" />
+                <Image Source="health.gif" WidthRequest="80" />
+                <Image Source="bug.gif" WidthRequest="80" />
+                <Image Source="plant.gif" WidthRequest="80" />
+                <Image Source="place.gif" WidthRequest="80" />
+                <Image Source="play.gif" WidthRequest="80" />
+                <Image Source="cloth.gif" WidthRequest="80" />
+                <Image Source="tale.gif" WidthRequest="80" />
+                <Image Source="science.gif" WidthRequest="80" />
+                <Image Source="art.gif" WidthRequest="80" />
+                <Image Source="body.gif" WidthRequest="80" />
+                <Image Source="work.gif" WidthRequest="80" />
+                <!-- 使わない
+                <Image Source="religion.gif" WidthRequest="80"/>
+                <Image Source="sports.gif" WidthRequest="80"/>
+                <Image Source="math.gif" WidthRequest="80"/>
+                <Image Source="weather.gif" WidthRequest="80"/>
+                <Image Source="person.gif" WidthRequest="80"/>
+                <Image Source="mech.gif" WidthRequest="80"/>
+                <Image Source="time.gif" WidthRequest="80"/>
+                使わない-->
+            </FlexLayout>
+            <Button
+                x:Name="BtnStart"
+                Grid.Row="4"
+                Grid.Column="1"
+                BackgroundColor="#12A4D4"
+                BorderColor="Transparent"
+                Clicked="BtnStart_Clicked"
+                FontAttributes="Bold"
+                FontFamily="MPlus1pBold"
+                FontSize="Large"
+                Text="はじめる"
+                VerticalOptions="Center"
+                WidthRequest="200" />
+            <Button
+                x:Name="BtnOption"
+                Grid.Row="4"
+                Grid.Column="2"
+                BackgroundColor="#FC236D"
+                BorderColor="Transparent"
+                Clicked="BtnOption_Clicked"
+                FontAttributes="Bold"
+                FontFamily="MPlus1pBold"
+                FontSize="Large"
+                Text="せってい"
+                VerticalOptions="Center"
+                WidthRequest="200" />
+            <Button
+                x:Name="BtnOther"
+                Grid.Row="4"
+                Grid.Column="3"
+                BackgroundColor="#0ABFBC"
+                BorderColor="Transparent"
+                Clicked="BtnOther_Clicked"
+                FontAttributes="Bold"
+                FontFamily="MPlus1pBold"
+                FontSize="Large"
+                Text="そのほか"
+                VerticalOptions="Center"
+                WidthRequest="200" />
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

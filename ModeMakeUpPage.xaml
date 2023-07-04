@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SBSimulatorMaui.ModeMakeUpPage"
+             Title="ModeMakeUpPage"
+             BackgroundColor="#F5F6F1">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack" />
+    </Shell.BackButtonBehavior>
+    <Grid RowDefinitions="0.02*,0.08*,0.15*,*">
+        <Label
+            x:Name="LblMessage"
+            Grid.Row="1"
+            Background="#6495ED"
+            FontFamily="MPlus1pRegular"
+            FontSize="23"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Opacity="0"
+            TextColor="White"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <Label
+            Grid.Row="2"
+            FontFamily="MPlus1pBold"
+            FontSize="50"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Text="モード設定"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <Border
+            Grid.Row="3"
+            Margin="70,10,70,40"
+            Stroke="LimeGreen"
+            StrokeShape="RoundRectangle 20"
+            StrokeThickness="3">
+            <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*" Margin="140,50,50,50" ColumnSpacing="70">
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="やどりぎの永続"
+                    FontFamily="MPlus1pRegular"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    FontSize="40"/>
+                <Switch
+                    x:Name="SwInfiniteSeed"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Scale="2"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Toggled="SwInfiniteSeed_Toggled"/>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="とくせいの変更"
+                    FontFamily="MPlus1pRegular"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    FontSize="40"/>
+                <Switch
+                    x:Name="SwAbilChange"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Scale="2"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Toggled="SwAbilChange_Toggled"/>
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="医療の回数制限"
+                    FontFamily="MPlus1pRegular"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Center"
+                    FontSize="40"/>
+                <Switch
+                    x:Name="SwInfiniteCure"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Scale="2"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Toggled="SwInfiniteCure_Toggled"/>
+
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

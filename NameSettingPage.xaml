@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SBSimulatorMaui.NameSettingPage"
+             Title="NameSettingPage"
+             BackgroundColor="#F5F6F1">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack"/>
+    </Shell.BackButtonBehavior>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <Label
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            x:Name="LblNameChanged"
+            HorizontalOptions="FillAndExpand"
+            Background="#6495ED"
+            Text="登録しました"
+            TextColor="White"
+            FontFamily="MPlus1pRegular"
+            FontSize="30"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            Margin="0,20,0,0"
+            Opacity="0"/>
+        <Entry
+            x:Name="NameEntry"
+            Margin="50,0,10,0"
+            Grid.Row="3"
+            Grid.Column="0"
+            Completed="Entry_Completed"
+            Background="White"
+            FontFamily="MPlus1pRegular"
+            FontSize="40"
+            HorizontalOptions="FillAndExpand"
+            Placeholder="なまえ"/>
+        <Button
+            x:Name="BtnNameRegister"
+            Clicked="BtnNameRegister_Clicked"
+            Text="OK"
+            TextColor="Black"
+            BackgroundColor="White"
+            Grid.Row="3"
+            Grid.Column="1"
+            FontSize="40"
+            BorderColor="Black"
+            Margin="0,10,40,10"
+            CornerRadius="0"/>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SBSimulatorMaui.PlayerMakeUpPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="PlayerMakeUpPage"
+    BackgroundColor="#F5F6F1">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack" />
+    </Shell.BackButtonBehavior>
+    <Grid ColumnDefinitions="*,*" RowDefinitions="0.02*,0.08*,0.15*,*">
+        <Label
+            x:Name="LblMessage"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Background="#6495ED"
+            FontFamily="MPlus1pRegular"
+            FontSize="23"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Opacity="0"
+            TextColor="White"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <Label
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            FontFamily="MPlus1pBold"
+            FontSize="40"
+            HorizontalOptions="FillAndExpand"
+            HorizontalTextAlignment="Center"
+            Text="プレイヤー設定"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <Grid
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            ColumnDefinitions="*,*">
+            <Line
+                Margin="0,1,0,31"
+                Background="MidnightBlue"
+                HorizontalOptions="End"
+                Stroke="MIdnightBlue"
+                StrokeThickness="3"
+                VerticalOptions="Fill" />
+        </Grid>
+        <Border
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Margin="30,0,30,30"
+            Stroke="MidnightBlue"
+            StrokeShape="RoundRectangle 20"
+            StrokeThickness="3">
+            <Grid
+                Margin="30"
+                ColumnDefinitions="*,*,*,*"
+                ColumnSpacing="10"
+                RowDefinitions="*,*,*">
+                <Label
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="プレイヤー名"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblPlayerName"
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="ゟいたー"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+                <Label
+                    Grid.Row="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="初期とくせい"
+                    VerticalOptions="Center" />
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BackgroundColor="White"
+                    HeightRequest="110"
+                    HorizontalOptions="Center"
+                    Stroke="White"
+                    StrokeShape="Ellipse"
+                    WidthRequest="110">
+                    <Image x:Name="ImgAbility" Source="normal.gif" />
+                </Border>
+                <Label
+                    Grid.Row="2"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="CPUの種類"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblPlayerKind"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="人間"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="20,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="先攻後攻設定"
+                    VerticalOptions="Center" />
+                <Picker
+                    x:Name="PkrProceeds"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="27"
+                    HorizontalOptions="Center"
+                    SelectedIndexChanged="PkrProceeds_SelectedIndexChanged"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="15,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="最大体力"
+                    VerticalOptions="Center" />
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Margin="0,0,0,0"
+                    HeightRequest="50"
+                    HorizontalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="27" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <Entry
+                        x:Name="MaxHPEntry"
+                        Grid.RowSpan="2"
+                        Background="White"
+                        Completed="MaxHPEntry_Completed"
+                        Focused="MaxHPEntry_Focused"
+                        FontSize="25"
+                        HorizontalOptions="Start"
+                        Keyboard="Numeric"
+                        MaxLength="6"
+                        Unfocused="MaxHPEntry_Unfocused"
+                        VerticalOptions="Fill"
+                        WidthRequest="70" />
+                    <Border
+                        x:Name="BdrMaxHPPlus"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Background="White"
+                        Stroke="DarkGray"
+                        StrokeShape="RoundRectangle 0,0,0,0">
+                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="+"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                            <Button
+                                x:Name="BtnMaxHPPlus"
+                                Background="Transparent"
+                                BorderColor="Transparent"
+                                Clicked="BtnMaxHPPlus_Clicked"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand" />
+                        </Grid>
+                    </Border>
+                    <Border
+                        x:Name="BdrMaxHPMinus"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Background="White"
+                        Stroke="DarkGray"
+                        StrokeShape="RoundRectangle 0,0,0,0">
+                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="-"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                            <Button
+                                x:Name="BtnMaxHPMinus"
+                                Background="Transparent"
+                                BorderColor="Transparent"
+                                Clicked="BtnMaxHPMinus_Clicked"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand" />
+                        </Grid>
+                    </Border>
+                    <Border
+                        x:Name="BdrMaxHPPlus10"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Background="White"
+                        Stroke="DarkGray"
+                        StrokeShape="RoundRectangle 0,0,0,0">
+                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="+10"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                            <Button
+                                x:Name="BtnMaxHPPlus10"
+                                Background="Transparent"
+                                BorderColor="Transparent"
+                                Clicked="BtnMaxHPPlus10_Clicked"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand" />
+                        </Grid>
+                    </Border>
+                    <Border
+                        x:Name="BdrMaxHPMinus10"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Background="White"
+                        Stroke="DarkGray"
+                        StrokeShape="RoundRectangle 0,0,0,0">
+                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label
+                                HorizontalOptions="Center"
+                                HorizontalTextAlignment="Center"
+                                Text="-10"
+                                TextColor="Black"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center" />
+                            <Button
+                                x:Name="BtnMaxHPMinus10"
+                                Background="Transparent"
+                                BorderColor="Transparent"
+                                Clicked="BtnMaxHPMinus10_Clicked"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand" />
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="15,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="Luck値"
+                    VerticalOptions="Center" />
+                <Picker
+                    x:Name="PkrLuck"
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="27"
+                    HorizontalOptions="Center"
+                    SelectedIndexChanged="PkrLuck_SelectedIndexChanged"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SBSimulatorMaui.BattleLoadingPage"
+             Title="BattleLoadingPage"
+             BackgroundColor="#F5F6F1">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior
+            IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+    <VerticalStackLayout
+        Margin="0,200,0,0"
+        Spacing="60">
+        <ActivityIndicator
+            IsRunning="True"
+            WidthRequest="150"
+            HeightRequest="150"/>
+        <Label
+            Text="アセットを読み込んでいます..."
+            FontFamily="MPlus1pRegular"
+            FontSize="20"
+            HorizontalTextAlignment="Center"/>
+    </VerticalStackLayout>
+</ContentPage>

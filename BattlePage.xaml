@@ -1,0 +1,2619 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SBSimulatorMaui.BattlePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:SBSimulatorMaui"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
+    Title="BattlePage"
+    BackgroundColor="#F5F6F1"
+    Loaded="ContentPage_Loaded">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack" />
+    </Shell.BackButtonBehavior>
+    <Grid x:Name="BattleGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.2*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <!--#region Main View-->
+
+        <!--#region Battle Screen-->
+        <Image
+            Grid.Row="1"
+            Aspect="AspectFill"
+            Source="ground.jpg" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="0.8*" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="15,10,10,-80"
+                BackgroundColor="#F5F6F1"
+                Stroke="#F5F6F1"
+                StrokeShape="Ellipse" />
+            <Grid
+                x:Name="AllyWord"
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Margin="0,-80,0,-7"
+                RowSpacing="-8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid
+                    x:Name="AllyEffect"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="4"
+                    Opacity="0">
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Opacity="0.5"
+                        Stroke="Transparent"
+                        StrokeThickness="3">
+                        <Image x:Name="ImgAllyEffectOuter" />
+                    </Border>
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Stroke="Transparent"
+                        StrokeThickness="20">
+                        <Image x:Name="ImgAllyEffectInner" />
+                    </Border>
+                </Grid>
+                <Image
+                    x:Name="ImgAllyType1"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrAllyType1"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="20"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="LblAllyType1"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <Image
+                    x:Name="ImgAllyType2"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrAllyType2"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    HorizontalOptions="Center"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="50">
+                    <Label
+                        x:Name="LblAllyType2"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <skia:SKCanvasView
+                    x:Name="GfxAllyWord"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    HorizontalOptions="FillAndExpand"
+                    PaintSurface="GfxAllyWord_PaintSurface"
+                    VerticalOptions="FillAndExpand" />
+            </Grid>
+            <HorizontalStackLayout
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="20,0,0,20"
+                HeightRequest="50"
+                HorizontalOptions="EndAndExpand"
+                Spacing="-6">
+                <Polygon
+                    Fill="#F5F6F1"
+                    HorizontalOptions="End"
+                    Points="20,20 20,0 0,20"
+                    Stroke="#F5F6F1"
+                    StrokeThickness="0"
+                    VerticalOptions="EndAndExpand" />
+                <Border
+                    Margin="0,-30,0,-0.24"
+                    Background="#F5F6F1"
+                    Stroke="#F5F6F1"
+                    StrokeShape="RoundRectangle 10,0,0,0"
+                    StrokeThickness="0"
+                    VerticalOptions="EndAndExpand">
+                    <VerticalStackLayout Margin="20,8,5,20" Spacing="3">
+                        <HorizontalStackLayout Spacing="5">
+                            <Label
+                                x:Name="LblAllyName"
+                                FontFamily="MPlus1pRegular"
+                                FontSize="19.5" />
+                            <HorizontalStackLayout Spacing="10">
+                                <Border
+                                    x:Name="BdrAllyCPU"
+                                    BackgroundColor="SlateGray"
+                                    IsVisible="False"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 5,5,5,5">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="SlateGray"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="CPU"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                                <Border
+                                    x:Name="BdrAllyPoison"
+                                    Background="#8F42D4"
+                                    Opacity="0"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 20,20,20,20">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="#8F42D4"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="どく"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                        <Grid
+                            x:Name="AllyHPBar"
+                            Margin="0,0,20,0"
+                            HorizontalOptions="StartAndExpand">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <BoxView
+                                x:Name="AllyHPBarAll"
+                                Grid.Row="0"
+                                BackgroundColor="#626362"
+                                HeightRequest="5"
+                                HorizontalOptions="StartAndExpand"
+                                WidthRequest="400"
+                                Color="#626362" />
+                            <BoxView
+                                x:Name="AllyHPBarRemain"
+                                Grid.Row="0"
+                                BackgroundColor="#00DB0E"
+                                HeightRequest="5"
+                                HorizontalOptions="StartAndExpand"
+                                ScaleX="2"
+                                TranslationX="-200"
+                                WidthRequest="400"
+                                Color="#00DB0E" />
+                        </Grid>
+                        <Label
+                            x:Name="LblAllyHP"
+                            FontFamily="Renner"
+                            FontSize="20" />
+                    </VerticalStackLayout>
+                </Border>
+            </HorizontalStackLayout>
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="70,20,70,-20"
+                BackgroundColor="#F5F6F1"
+                Stroke="#F5F6F1"
+                StrokeShape="Ellipse" />
+            <Grid
+                x:Name="FoeWord"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="0,-20,0,-27"
+                ColumnSpacing="0"
+                RowSpacing="-20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid
+                    x:Name="FoeEffect"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="4"
+                    Opacity="0">
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Opacity="0.5"
+                        Stroke="Transparent"
+                        StrokeThickness="3">
+                        <Image x:Name="ImgFoeEffectOuter" />
+                    </Border>
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Stroke="Transparent"
+                        StrokeThickness="20">
+                        <Image x:Name="ImgFoeEffectInner" />
+                    </Border>
+                </Grid>
+                <Image
+                    x:Name="ImgFoeType1"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrFoeType1"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="20"
+                    HorizontalOptions="Center"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="LblFoeType1"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <Image
+                    x:Name="ImgFoeType2"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrFoeType2"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="50">
+                    <Label
+                        x:Name="LblFoeType2"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <skia:SKCanvasView
+                    x:Name="GfxFoeWord"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    HorizontalOptions="FillAndExpand"
+                    PaintSurface="GfxFoeWord_PaintSurface"
+                    VerticalOptions="FillAndExpand" />
+            </Grid>
+            <HorizontalStackLayout
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,-10,20,20"
+                HeightRequest="100"
+                HorizontalOptions="Start"
+                Spacing="-6">
+                <Border
+                    Margin="0,20,0,-0.25"
+                    Background="#F5F6F1"
+                    Stroke="#F5F6F1"
+                    StrokeShape="RoundRectangle 0,10,0,0"
+                    VerticalOptions="EndAndExpand">
+                    <VerticalStackLayout Margin="10,8,5,20" Spacing="3">
+                        <HorizontalStackLayout Spacing="5">
+                            <Label
+                                x:Name="LblFoeName"
+                                FontFamily="MPlus1pRegular"
+                                FontSize="19.5" />
+                            <HorizontalStackLayout Spacing="10">
+                                <Border
+                                    x:Name="BdrFoeCPU"
+                                    BackgroundColor="SlateGray"
+                                    IsVisible="False"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 5,5,5,5">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="SlateGray"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="CPU"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                                <Border
+                                    x:Name="BdrFoePoison"
+                                    Background="#8F42D4"
+                                    Opacity="0"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 20,20,20,20">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="#8F42D4"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="どく"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                        <Grid
+                            x:Name="FoeHPBar"
+                            Margin="0,0,20,0"
+                            HorizontalOptions="StartAndExpand">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <BoxView
+                                x:Name="FoeHPBarAll"
+                                Grid.Row="0"
+                                BackgroundColor="#626362"
+                                HeightRequest="5"
+                                HorizontalOptions="Start"
+                                WidthRequest="400"
+                                Color="#626362" />
+                            <BoxView
+                                x:Name="FoeHPBarRemain"
+                                Grid.Row="0"
+                                BackgroundColor="#00DB0E"
+                                HeightRequest="5"
+                                HorizontalOptions="Start"
+                                ScaleX="2"
+                                TranslationX="-200"
+                                WidthRequest="400"
+                                Color="#00DB0E" />
+                        </Grid>
+                        <Label
+                            x:Name="LblFoeHP"
+                            FontFamily="Renner"
+                            FontSize="20" />
+                    </VerticalStackLayout>
+                </Border>
+                <Polygon
+                    Fill="#F5F6F1"
+                    Points="0,20 0,0 20,20"
+                    Stroke="#F5F6F1"
+                    StrokeThickness="0"
+                    VerticalOptions="EndAndExpand" />
+            </HorizontalStackLayout>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Entry and Message-->
+        <BoxView
+            x:Name="BoxEntryHider"
+            Grid.Row="2"
+            Grid.RowSpan="2"
+            Opacity="0"
+            Color="#333333" />
+        <Label
+            x:Name="LblEntryHider"
+            Grid.Row="2"
+            Grid.RowSpan="2"
+            Margin="17,0,0,0"
+            FontFamily="MPlus1pRegular"
+            FontSize="20"
+            Opacity="0"
+            TextColor="#FFFFFF"
+            VerticalTextAlignment="Center" />
+        <HorizontalStackLayout
+            Grid.Row="3"
+            Margin="10,0,10,0"
+            Spacing="5">
+            <Border
+                x:Name="BdrWordEntry"
+                HorizontalOptions="FillAndExpand"
+                Stroke="#E5E9EE"
+                StrokeShape="RoundRectangle 20,20,20,20">
+                <Entry
+                    x:Name="WordEntry"
+                    BackgroundColor="#E5E9EE"
+                    Completed="WordEntry_Completed"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    WidthRequest="700"
+                    PlaceholderColor="Gray"/>
+            </Border>
+            <ImageButton
+                x:Name="BtnRegisterWord"
+                BackgroundColor="Transparent"
+                Clicked="BtnRegisterWord_Clicked"
+                HeightRequest="40"
+                Rotation="45"
+                Source="paper_plane.png" />
+        </HorizontalStackLayout>
+        <Label
+            x:Name="LblAuxInfo"
+            Grid.Row="4"
+            Margin="15,0,0,0"
+            FontAttributes="Italic"
+            FontFamily="MPlus1pRegular"
+            FontSize="Micro" />
+        <!--#endregion-->
+
+        <!--#region Buttons-->
+        <Grid Grid.Row="5" Margin="30,20,30,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="BtnSituation"
+                Grid.Column="0"
+                Margin="25,25,25,25"
+                BackgroundColor="#9A5252"
+                BorderColor="#C44041"
+                BorderWidth="5"
+                Clicked="BtnSituation_Clicked"
+                FontFamily="MPlus1pBold"
+                FontSize="Small"
+                Text="じょうきょう" />
+            <Button
+                x:Name="BtnAbility"
+                Grid.Column="1"
+                Margin="25,25,25,25"
+                BackgroundColor="#416F27"
+                BorderColor="#54A836"
+                BorderWidth="5"
+                Clicked="BtnAbility_Clicked"
+                FontFamily="MPlus1pBold"
+                FontSize="Small"
+                Text="とくせい" />
+            <Button
+                x:Name="BtnBattleOption"
+                Grid.Column="2"
+                Margin="25,25,25,25"
+                BackgroundColor="DarkGoldenrod"
+                BorderColor="Goldenrod"
+                BorderWidth="5"
+                Clicked="BtnBattleOption_Clicked"
+                FontFamily="MPlus1pBold"
+                FontSize="Small"
+                Text="せってい" />
+            <Button
+                x:Name="BtnEscape"
+                Grid.Column="3"
+                Margin="25,25,25,25"
+                BackgroundColor="#28536F"
+                BorderColor="#A8F0FF"
+                BorderWidth="5"
+                Clicked="BtnEscape_Clicked"
+                FontFamily="MPlus1pBold"
+                FontSize="Small"
+                Text="おわる" />
+        </Grid>
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+        <!--#region Situation Modal-->
+        <Border
+            x:Name="SituationModal"
+            Grid.RowSpan="6"
+            Margin="40"
+            Background="White"
+            IsVisible="False"
+            Opacity="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 30,30,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.12*" />
+                    <RowDefinition Height="0.6*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.6*" />
+                </Grid.RowDefinitions>
+                <Label
+                    x:Name="LblFoeNameSituationModal"
+                    Grid.Row="1"
+                    Margin="10,0,0,0"
+                    FontAttributes="Bold"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    HorizontalOptions="Start"
+                    Text="あいて"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblAllyNameSituationModal"
+                    Grid.Row="1"
+                    Margin="0,0,10,0"
+                    FontAttributes="Bold"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    HorizontalOptions="End"
+                    Text="じぶん"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="2"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="こうげき"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="2"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="こうげき"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblFoeATKSituationModal"
+                    Grid.Row="3"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="0.5倍"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblAllyATKSituationModal"
+                    Grid.Row="3"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="1.0倍"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="5"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="ぼうぎょ"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="5"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="ぼうぎょ"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblFoeDEFSituationModal"
+                    Grid.Row="6"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="1.0倍"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblAllyDEFSituationModal"
+                    Grid.Row="6"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="1.0倍"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblOtherPlayersWordNameSituationModal"
+                    Grid.Row="8"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center" />
+                <FlexLayout
+                    x:Name="FlexWordTypes"
+                    Grid.Row="9"
+                    Margin="10,0,10,10"
+                    AlignItems="Start"
+                    VerticalOptions="Start" />
+                <Button
+                    x:Name="BtnCloseSituationModal"
+                    Grid.Row="10"
+                    BackgroundColor="#448EC6"
+                    Clicked="BtnCloseSituationModal_Clicked"
+                    CornerRadius="0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    Text="とじる" />
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Ability Modal-->
+        <Border
+            x:Name="AbilityModal"
+            Grid.RowSpan="6"
+            Margin="0,30,0,40"
+            Background="White"
+            IsVisible="False"
+            Opacity="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 0,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.28*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.75*" />
+                </Grid.RowDefinitions>
+                <Label
+                    x:Name="LblChangedAbilityModal"
+                    Grid.Row="0"
+                    Padding="10,0,10,0"
+                    Background="#6495ED"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="FillAndExpand"
+                    Opacity="0"
+                    Text="とくせいを変更した！"
+                    TextColor="White"
+                    VerticalOptions="FillAndExpand" />
+                <Grid Grid.Row="1" Margin="10,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        Text="相手"
+                        VerticalOptions="End" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="End"
+                        Text="自分"
+                        VerticalOptions="End" />
+                    <Label
+                        x:Name="LblFoeAbilityNameAbilityModal"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Background="#DCDADC"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Start"
+                        Text="むきむき"
+                        VerticalOptions="Center" />
+                    <Label
+                        x:Name="LblAllyAbilityNameAbilityModal"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Background="#DCDADC"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        Text="ロックンロール"
+                        VerticalOptions="Center" />
+                    <Label
+                        x:Name="LblFoeAbilityDescAbilityModal"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        Text="暴力タイプの言葉を使っても攻撃力がすこししか下がらなくなる"
+                        VerticalOptions="CenterAndExpand" />
+                    <Label
+                        x:Name="LblAllyAbilityDescAbilityModal"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="End"
+                        Text="芸術タイプの言葉を使うとダメージを与える代わりに攻撃力がぐーんと上がる"
+                        VerticalOptions="CenterAndExpand" />
+
+                </Grid>
+                <HorizontalStackLayout Grid.Row="3" Margin="10">
+                    <Label
+                        x:Name="LblCountAbilityModal"
+                        Grid.Row="3"
+                        FontFamily="MPlus1pBold"
+                        FontSize="16"
+                        Text="タップしてとくせいを変える" />
+                    <Picker
+                        x:Name="PkrPlayerAbilityModal"
+                        Margin="50,0,0,0"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="15"
+                        HorizontalOptions="Center"
+                        MaximumHeightRequest="15"
+                        SelectedIndexChanged="PkrPlayerAbilityModal_SelectedIndexChanged"
+                        VerticalOptions="Start" />
+                </HorizontalStackLayout>
+                <ScrollView Grid.Row="4">
+                    <StackLayout>
+                        <FlexLayout x:Name="FlexChangingAbilityModal" Wrap="Wrap" />
+                    </StackLayout>
+                </ScrollView>
+                <Button
+                    x:Name="BtnCloseAbilityModal"
+                    Grid.Row="6"
+                    BackgroundColor="#448Ec6"
+                    Clicked="BtnCloseAbilityModal_Clicked"
+                    CornerRadius="0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    Text="とじる" />
+            </Grid>
+
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Option Modal-->
+        <Border
+            x:Name="OptionModal"
+            Grid.RowSpan="6"
+            Margin="0,30,0,40"
+            Background="#F5F6F1"
+            IsVisible="False"
+            Opacity="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 0,0,0,0">
+            <Grid RowSpacing="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    x:Name="LblSetOptionModal"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Margin="-10"
+                    Padding="0,20,0,10"
+                    Background="#6495ED"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="23"
+                    HorizontalOptions="Fill"
+                    HorizontalTextAlignment="Center"
+                    Opacity="0"
+                    Text="設定を適用しました。"
+                    TextColor="White"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
+                <Label
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="0,-15,0,0"
+                    FontFamily="MPlus1pBold"
+                    FontSize="50"
+                    HorizontalOptions="Center"
+                    Text="せってい" />
+                <Grid Grid.Row="2" Grid.RowSpan="2">
+
+                    <ScrollView x:Name="MainOptions">
+                        <StackLayout Spacing="40">
+                            <Grid x:Name="Player1Setting">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="プレイヤー１の設定"
+                                    VerticalOptions="Center" />
+                                <ImageButton
+                                    x:Name="BtnOpenPlayer1Setting"
+                                    Grid.Column="1"
+                                    Background="Transparent"
+                                    Clicked="BtnOpenPlayer1Setting_Clicked"
+                                    HorizontalOptions="Start"
+                                    MaximumHeightRequest="34"
+                                    MaximumWidthRequest="34"
+                                    MinimumHeightRequest="34"
+                                    MinimumWidthRequest="34"
+                                    Source="settings.png"
+                                    VerticalOptions="Center" />
+                            </Grid>
+
+                            <Grid x:Name="Player2Setting">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="プレイヤー２の設定"
+                                    VerticalOptions="Center" />
+                                <ImageButton
+                                    x:Name="BtnOpenPlayer2Setting"
+                                    Grid.Column="1"
+                                    Background="Transparent"
+                                    Clicked="BtnOpenPlayer2Setting_Clicked"
+                                    HorizontalOptions="Start"
+                                    MaximumHeightRequest="34"
+                                    MaximumWidthRequest="34"
+                                    MinimumHeightRequest="34"
+                                    MinimumWidthRequest="34"
+                                    Source="settings.png"
+                                    VerticalOptions="Center" />
+                            </Grid>
+
+                            <Grid x:Name="InfiniteSeedOptionSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="やどりぎの永続"
+                                    VerticalOptions="Center" />
+                                <Switch
+                                    x:Name="SwInfiniteSeed"
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center"
+                                    ScaleX="1.5"
+                                    ScaleY="1.5"
+                                    Toggled="SwInfiniteSeed_Toggled"
+                                    VerticalOptions="Center" />
+                            </Grid>
+
+                            <Grid x:Name="AbilChangeOptionSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="とくせいの変更"
+                                    VerticalOptions="Center" />
+                                <Switch
+                                    x:Name="SwAbilChange"
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center"
+                                    ScaleX="1.5"
+                                    ScaleY="1.5"
+                                    Toggled="SwAbilChange_Toggled"
+                                    VerticalOptions="Center" />
+                            </Grid>
+
+                            <Grid x:Name="InfiniteCureOptionSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="医療タイプ制限"
+                                    VerticalOptions="Center" />
+                                <Switch
+                                    x:Name="SwInfiniteCure"
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center"
+                                    ScaleX="1.5"
+                                    ScaleY="1.5"
+                                    Toggled="SwInfiniteCure_Toggled"
+                                    VerticalOptions="Center" />
+                            </Grid>
+
+                            <Grid x:Name="MaxCureCountSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="医療タイプの上限"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-50,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="MaxCureEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="MaxCureEntry_Completed"
+                                        Focused="MaxCureEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="MaxCureEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrMaxCurePlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxCurePlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxCurePlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxCureMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxCureMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxCureMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxCurePlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxCurePlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxCurePlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxCureMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxCureMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxCureMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="CritSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="急所の倍率"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-50,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="CritEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="CritEntry_Completed"
+                                        Focused="CritEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="CritEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrCritPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnCritPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnCritPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrCritMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnCritMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnCritMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrCritPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnCritPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnCritPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrCritMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnCritMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnCritMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="MaxSeedTurnSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="やどりぎ継続ターン"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-50,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="MaxSeedEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="MaxSeedEntry_Completed"
+                                        Focused="MaxSeedEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="MaxSeedEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrMaxSeedPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxSeedPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxSeedPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxSeedMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxSeedMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxSeedMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxSeedPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxSeedPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxSeedPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxSeedMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxSeedMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxSeedMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="MaxAbilChangeSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="とくせい変更上限"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-50,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="MaxAbilEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="MaxAbilEntry_Completed"
+                                        Focused="MaxAbilEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="MaxAbilEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrMaxAbilPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxAbilPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxAbilPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxAbilMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxAbilMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxAbilMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxAbilPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxAbilPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxAbilPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxAbilMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxAbilMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxAbilMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="SeedDmgSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="やどりぎダメージ"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-50,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="SeedDmgEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="SeedDmgEntry_Completed"
+                                        Focused="SeedDmgEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="SeedDmgEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrSeedDmgPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnSeedDmgPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnSeedDmgPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrSeedDmgMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnSeedDmgMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnSeedDmgMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrSeedDmgPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnSeedDmgPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnSeedDmgPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrSeedDmgMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnSeedDmgMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnSeedDmgMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="MaxFoodCountSetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="食べ物タイプの上限"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-50,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="MaxFoodEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="MaxFoodEntry_Completed"
+                                        Focused="MaxFoodEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="MaxFoodEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrMaxFoodPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxFoodPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxFoodPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxFoodMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxFoodMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxFoodMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxFoodPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxFoodPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxFoodPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxFoodMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxFoodMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxFoodMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="InsBufQtySetter">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="ほけんの攻撃上昇"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-50,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="InsBufEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="InsBufEntry_Completed"
+                                        Focused="InsBufEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="InsBufEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrInsBufPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnInsBufPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnInsBufPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrInsBufMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnInsBufMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnInsBufMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrInsBufPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnInsBufPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnInsBufPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrInsBufMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnInsBufMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnInsBufMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Label Background="Transparent" HeightRequest="25" />
+                        </StackLayout>
+                    </ScrollView>
+
+                    <ScrollView
+                        x:Name="PlayerOptions"
+                        Background="#F5F6F1"
+                        IsVisible="False"
+                        Opacity="0">
+                        <StackLayout Background="#F5F6F1" Spacing="40">
+
+                            <Button
+                                x:Name="BtnBackOption"
+                                Background="Transparent"
+                                BorderColor="Transparent"
+                                Clicked="BtnBackOption_Clicked"
+                                FontFamily="MPlus1pBold"
+                                FontSize="35"
+                                HorizontalOptions="Start"
+                                Text="←もどる"
+                                TextColor="Black"
+                                VerticalOptions="Start" />
+
+                            <Grid x:Name="NameViewer" ColumnDefinitions="1.8*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="プレイヤー名"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    x:Name="LblPlayerNameOptionModal"
+                                    Grid.Column="1"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    FontAutoScalingEnabled="True"
+                                    HorizontalOptions="Start"
+                                    Text="じぶん"
+                                    VerticalOptions="Center"
+                                    Margin="0,0,20,0"/>
+                            </Grid>
+
+                            <Grid x:Name="CurrentAbilityViewer" ColumnDefinitions="1.8*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="現在のとくせい"
+                                    VerticalOptions="Center" />
+                                <Border
+                                    Grid.Column="1"
+                                    Margin="-15,0,125,0"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="Start"
+                                    Stroke="White"
+                                    StrokeShape="Ellipse">
+                                    <Image x:Name="ImgCurrentAbilityOptionModal" Source="health.gif" />
+                                </Border>
+                            </Grid>
+
+                            <Grid x:Name="HPSetter" ColumnDefinitions="1.8*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="現在の体力"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-30,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="HPSettingEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="HPSettingEntry_Completed"
+                                        Focused="HPSettingEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="HPSettingEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrHPSettingPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnHPSettingPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnHPSettingPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrHPSettingMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnHPSettingMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnHPSettingMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrHPSettingPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnHPSettingPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnHPSettingPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrHPSettingMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnHPSettingMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnHPSettingMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Name="MaxHPSetter" ColumnDefinitions="1.8*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="最大体力"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="-30,0,0,0"
+                                    HeightRequest="50"
+                                    HorizontalOptions="Start">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="27" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <Entry
+                                        x:Name="MaxHPEntry"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        Completed="MaxHPEntry_Completed"
+                                        Focused="MaxHPEntry_Focused"
+                                        FontSize="25"
+                                        HorizontalOptions="Start"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Unfocused="MaxHPEntry_Unfocused"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="70" />
+                                    <Border
+                                        x:Name="BdrMaxHPPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxHPPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxHPPlus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxHPMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxHPMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxHPMinus_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxHPPlus10"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxHPPlus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxHPPlus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrMaxHPMinus10"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-10"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnMaxHPMinus10"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                Clicked="BtnMaxHPMinus10_Clicked"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid
+                                x:Name="ATKSetter"
+                                Margin="-30,0,-30,0"
+                                ColumnDefinitions="1.8*,*"
+                                RowDefinitions="27,27">
+                                <Label
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="攻撃力"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    Margin="-60,0,0,0"
+                                    HeightRequest="27"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="27" />
+                                    </Grid.ColumnDefinitions>
+                                    <Slider
+                                        x:Name="ATKSlider"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        HorizontalOptions="Fill"
+                                        Maximum="6"
+                                        Minimum="-6"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="150"
+                                        Value="0"
+                                        DragCompleted="ATKSlider_DragCompleted"
+                                        ValueChanged="ATKSlider_ValueChanged"/>
+                                    <Label
+                                        x:Name="LblATKViewer"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="20"
+                                        Text="+7"
+                                        VerticalOptions="Center" />
+                                    <Border
+                                        x:Name="BdrATKPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Margin="0,-10,0,0"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnATKPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand"
+                                                Clicked="BtnATKPlus_Clicked"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrATKMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="4"
+                                        Margin="0,0,0,-10"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnATKMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand"
+                                                Clicked="BtnATKMinus_Clicked"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid
+                                x:Name="DEFSetter"
+                                Margin="-30,0,-30,0"
+                                ColumnDefinitions="1.8*,*"
+                                RowDefinitions="27,27">
+                                <Label
+                                    Grid.RowSpan="2"
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="防御力"
+                                    VerticalOptions="Center" />
+                                <Grid
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    Margin="-60,0,0,0"
+                                    HeightRequest="27"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="35" />
+                                        <ColumnDefinition Width="5" />
+                                        <ColumnDefinition Width="27" />
+                                    </Grid.ColumnDefinitions>
+                                    <Slider
+                                        x:Name="DEFSlider"
+                                        Grid.RowSpan="2"
+                                        Background="White"
+                                        HorizontalOptions="Fill"
+                                        Maximum="6"
+                                        Minimum="-6"
+                                        VerticalOptions="Fill"
+                                        WidthRequest="150"
+                                        Value="0"
+                                        DragCompleted="DEFSlider_DragCompleted"
+                                        ValueChanged="DEFSlider_ValueChanged"/>
+                                    <Label
+                                        x:Name="LblDEFViewer"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="20"
+                                        Text="+7"
+                                        VerticalOptions="Center" />
+                                    <Border
+                                        x:Name="BdrDEFPlus"
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Margin="0,-10,0,0"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="+"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnDEFPlus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand"
+                                                Clicked="BtnDEFPlus_Clicked"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border
+                                        x:Name="BdrDEFMinus"
+                                        Grid.Row="1"
+                                        Grid.Column="4"
+                                        Margin="0,0,0,-10"
+                                        Background="White"
+                                        Stroke="DarkGray"
+                                        StrokeShape="RoundRectangle 0,0,0,0">
+                                        <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label
+                                                HorizontalOptions="Center"
+                                                HorizontalTextAlignment="Center"
+                                                Text="-"
+                                                TextColor="Black"
+                                                VerticalOptions="Center"
+                                                VerticalTextAlignment="Center" />
+                                            <Button
+                                                x:Name="BtnDEFMinus"
+                                                Background="Transparent"
+                                                BorderColor="Transparent"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand"
+                                                Clicked="BtnDEFMinus_Clicked"/>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+
+                            <Grid
+                                x:Name="LuckSetter"
+                                Margin="-30,0,-30,0"
+                                ColumnDefinitions="1.8*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    Text="運"
+                                    VerticalOptions="Center" />
+                                <Picker
+                                    x:Name="PkrPlayerLuck"
+                                    Grid.Column="1"
+                                    FontFamily="MPlus1pRegular"
+                                    FontSize="27"
+                                    HorizontalOptions="Start"
+                                    Margin="-60,0,0,0"
+                                    SelectedIndexChanged="PkrPlayerLuck_SelectedIndexChanged"/>
+                            </Grid>
+
+                            <Label HeightRequest="25"/>
+
+                        </StackLayout>
+                    </ScrollView>
+
+                </Grid>
+                <Line
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+                <Line
+                    Grid.Row="2"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Margin="0,-20,0,0"
+                    BackgroundColor="DarkGray"
+                    HorizontalOptions="End"
+                    VerticalOptions="Fill" />
+                <Line
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="DarkGray"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End" />
+                <Button
+                    x:Name="BtnRevertOptionModal"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="50,40,50,40"
+                    BackgroundColor="DarkRed"
+                    BorderColor="LightCoral"
+                    BorderWidth="5"
+                    Clicked="BtnRevertOptionModal_Clicked"
+                    FontFamily="MPlus1pBold"
+                    FontSize="20"
+                    Text="デフォルトに戻す" />
+                <Button
+                    x:Name="BtnCloseOptionModal"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="50,40,50,40"
+                    BackgroundColor="DarkBlue"
+                    BorderColor="LightBlue"
+                    BorderWidth="5"
+                    Clicked="BtnCloseOptionModal_Clicked"
+                    FontFamily="MPlus1pBold"
+                    FontSize="20"
+                    Text="とじる" />
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Escape Modal-->
+        <Border
+            x:Name="EscapeModal"
+            Grid.RowSpan="6"
+            Margin="220"
+            Background="White"
+            IsVisible="False"
+            Opacity="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 20,20,20,20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="25"
+                    HorizontalOptions="Center"
+                    Text="シミュレーションを終了しますか？"
+                    VerticalOptions="Center" />
+                <Button
+                    x:Name="BtnEndBattle"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="20"
+                    Background="#448EC6"
+                    Clicked="BtnEndBattle_Clicked"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="18"
+                    Text="終了する" />
+                <Button
+                    x:Name="BtnCloseEscapeModal"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="20"
+                    BackgroundColor="#E9E9E9"
+                    BorderColor="Transparent"
+                    Clicked="BtnCloseEscapeModal_Clicked"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="18"
+                    Text="つづける"
+                    TextColor="Black" />
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+    </Grid>
+</ContentPage>

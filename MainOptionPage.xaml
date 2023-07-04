@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SBSimulatorMaui.MainOptionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="MainOptionPage"
+    BackgroundColor="#F5F6F1">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack" />
+    </Shell.BackButtonBehavior>
+    <Grid
+        Margin="50,20,50,50"
+        ColumnDefinitions="*,*"
+        RowDefinitions="*,*,*,*">
+        <Label
+            Grid.ColumnSpan="2"
+            FontFamily="MPlus1pBold"
+            FontSize="55"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="アプリ設定"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center" />
+        <Label
+            Grid.Row="1"
+            FontFamily="MPlus1pRegular"
+            FontSize="40"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="カスタム特性"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center" />
+        <Switch
+            x:Name="SwCustomAbil"
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalOptions="Center"
+            Scale="2.4"
+            VerticalOptions="Center"
+            Toggled="SwCustomAbil_Toggled"/>
+        <Label
+            Grid.Row="2"
+            FontFamily="MPlus1pRegular"
+            FontSize="40"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="メニュー画面のBGM"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center" />
+        <Picker
+            x:Name="PkrMainBgm"
+            Margin="40,0,0,0"
+            Grid.Row="2"
+            Grid.Column="1"
+            FontFamily="MPlus1pRegular"
+            FontSize="32"
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="Center"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center"
+            SelectedIndexChanged="PkrMainBgm_SelectedIndexChanged"/>
+        <Label
+            Grid.Row="3"
+            FontFamily="MPlus1pRegular"
+            FontSize="40"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="バトル中のBGM"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center" />
+        <Picker
+            Margin="40,0,0,0"
+            x:Name="PkrBattleBgm"
+            Grid.Row="3"
+            Grid.Column="2"
+            FontFamily="MPlus1pRegular"
+            FontSize="32"
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="Center"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center"
+            SelectedIndexChanged="PkrBattleBgm_SelectedIndexChanged"/>
+
+
+    </Grid>
+</ContentPage>

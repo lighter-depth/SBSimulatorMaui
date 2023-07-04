@@ -1,0 +1,95 @@
+is_global = true
+build_property.TargetFramework = net7.0-windows10.0.19041.0
+build_property.TargetPlatformMinVersion = 10.0.17763.0
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 9A19103F-16F7-4668-BE54-9A1E7A4F7556
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SBSimulatorMaui
+build_property.ProjectDir = C:\Users\froml\source\repos\SBSimulatorMaui\
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/App.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.App.xaml
+build_metadata.AdditionalFiles.TargetPath = App.xaml
+build_metadata.AdditionalFiles.RelativePath = App.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/AppShell.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.AppShell.xaml
+build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
+build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/BattleLoadingPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.BattleLoadingPage.xaml
+build_metadata.AdditionalFiles.TargetPath = BattleLoadingPage.xaml
+build_metadata.AdditionalFiles.RelativePath = BattleLoadingPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/BattlePage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.BattlePage.xaml
+build_metadata.AdditionalFiles.TargetPath = BattlePage.xaml
+build_metadata.AdditionalFiles.RelativePath = BattlePage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/InfoPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.InfoPage.xaml
+build_metadata.AdditionalFiles.TargetPath = InfoPage.xaml
+build_metadata.AdditionalFiles.RelativePath = InfoPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/MainOptionPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.MainOptionPage.xaml
+build_metadata.AdditionalFiles.TargetPath = MainOptionPage.xaml
+build_metadata.AdditionalFiles.RelativePath = MainOptionPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/MainPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.MainPage.xaml
+build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
+build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/MakeUpAbilityPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.MakeUpAbilityPage.xaml
+build_metadata.AdditionalFiles.TargetPath = MakeUpAbilityPage.xaml
+build_metadata.AdditionalFiles.RelativePath = MakeUpAbilityPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/MatchUpPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.MatchUpPage.xaml
+build_metadata.AdditionalFiles.TargetPath = MatchUpPage.xaml
+build_metadata.AdditionalFiles.RelativePath = MatchUpPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/ModeMakeUpPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.ModeMakeUpPage.xaml
+build_metadata.AdditionalFiles.TargetPath = ModeMakeUpPage.xaml
+build_metadata.AdditionalFiles.RelativePath = ModeMakeUpPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/NameSettingPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.NameSettingPage.xaml
+build_metadata.AdditionalFiles.TargetPath = NameSettingPage.xaml
+build_metadata.AdditionalFiles.RelativePath = NameSettingPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/PlayerMakeUpPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.PlayerMakeUpPage.xaml
+build_metadata.AdditionalFiles.TargetPath = PlayerMakeUpPage.xaml
+build_metadata.AdditionalFiles.RelativePath = PlayerMakeUpPage.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/Resources/Styles/Colors.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.Resources.Styles.Colors.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Colors.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Colors.xaml
+
+[C:/Users/froml/source/repos/SBSimulatorMaui/Resources/Styles/Styles.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = SBSimulatorMaui.Resources.Styles.Styles.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
