@@ -5,8 +5,6 @@ using Umayadia.Kana;
 using static SBSimulatorMaui.Word;
 
 namespace SBSimulatorMaui;
-// Program クラスで行っている処理を抽出したクラス。
-// 文字列で入力し、アノテーション付き文字列で出力する。
 /// <summary>
 /// バトル単位の処理を管理するクラスです。
 /// </summary>
@@ -43,7 +41,7 @@ public class Battle
     /// <summary>
     /// 入力処理を行うハンドラー
     /// </summary>
-    public required Func<Order>? In { get; set; }
+    public required Func<Task<Order>>? In { get; set; }
     /// <summary>
     /// 出力処理を行うハンドラー
     /// </summary>
@@ -112,7 +110,7 @@ public class Battle
     CancellationTokenSource cts = new();
     public static Battle Empty => new(new(), new())
     {
-        In = () => new(),
+        In = async() => await Task.Run(() => new Order()),
         Out = async a => await Task.Delay(0),
         OnShowOrdered = emptyDelegate,
         OnResetOrdered = emptyDelegate,
@@ -143,7 +141,7 @@ public class Battle
             Buffer.Clear();
 
             // 入力処理、CPU かどうかを判定
-            var order = CurrentPlayer is not CPUPlayer cpu ? await Task.Run(() => In()) : await cpu.ExecuteAsync();
+            var order = CurrentPlayer is not CPUPlayer cpu ? await In() : await cpu.ExecuteAsync();
             CurrentOrderType = order.Type;
             if (order.Type is OrderType.None)
             {
@@ -192,7 +190,7 @@ public class Battle
     /// <returns><see cref="Player1"/>が先攻するかどうかを表すフラグ</returns>
     private bool InitIsP1sTurn()
     {
-        var randomFlag = new Random().Next(2) == 0;
+        var randomFlag = SBOptions.Random.Next(2) == 0;
         var p1TPA = Player1.Proceeding;
         var p2TPA = Player2.Proceeding;
         if (p1TPA == p2TPA) return randomFlag;
@@ -513,7 +511,7 @@ public class Battle
             word = new Word(name, CurrentPlayer, OtherPlayer, type1, type2);
             return true;
         }
-        if (SBDictionary.NoTypeWords.Contains(name) || SBDictionary.NoTypeWordEx.Contains(name))
+        if (SBDictionary.NoTypeWords.Contains(name))
         {
             word = new Word(name, CurrentPlayer, OtherPlayer, WordType.Empty);
             return true;

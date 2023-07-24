@@ -131,8 +131,8 @@ public class Word
     public Word() : this(string.Empty, Empty) { }
     static Word()
     {
-        // 0: Normal, 1: Effective, 2: Not Effective, 3: No Damage
-        effList = new int[,]
+        // 0: Normal, 1: Effective, 2: Non-Effective, 3: No Damage
+        effList = new[,]
         {
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 3, 2, 1, 1, 1 }, // Violence
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Food
@@ -141,7 +141,7 @@ public class Word
             { 2, 1, 0, 0, 2, 0, 1, 2, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 }, // Animal
             { 2, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3, 0, 0, 2, 2, 0, 0, 2, 0, 0 }, // Emotion
             { 0, 1, 1, 0, 2, 0, 2, 0, 2, 0, 2, 2, 0, 1, 1, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0 }, // Plant
-            { 0, 0, 0, 0, 0, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0 }, // Science
+            { 0, 0, 0, 0, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0 }, // Science
             { 2, 2, 0, 0, 0, 0, 1, 0, 2, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 }, // Playing
             { 2, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0 }, // Person
             { 2, 0, 0, 0, 0, 0, 1, 0, 2, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Clothing
@@ -160,7 +160,7 @@ public class Word
             { 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0 }, // Sports
             { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }  // Normal  
         };
-        typeIndex = new WordType[] { Violence, Food, Place, Society, Animal, Emote, Plant, Science, Play, Person, Cloth, Work, Art, Body, Time, Mech, Health, Tale, Insult, WordType.Math, Weather, Bug, Religion, Sports, Normal, Empty };
+        typeIndex = new[] { Violence, Food, Place, Society, Animal, Emote, Plant, Science, Play, Person, Cloth, Work, Art, Body, Time, Mech, Health, Tale, Insult, WordType.Math, Weather, Bug, Religion, Sports, Normal, Empty };
     }
     #endregion
 
@@ -245,6 +245,20 @@ public class Word
             if (actorWord.CalcAmp(receiverWord) >= 2) result.Add(i);
         }
         return result;
+    }
+    public string Serialize()
+    {
+        return Name + "%" + Type1.TypeToString() + "%" + Type2.TypeToString();
+    }
+    public static Word Deserialize(string textData)
+    {
+        var data = textData.Split("%");
+        return new Word
+        {
+            Name = data[0],
+            Type1 = data[1].StringToType(),
+            Type2 = data[2].StringToType()
+        };
     }
     #endregion
 }

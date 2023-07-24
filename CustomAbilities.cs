@@ -80,6 +80,7 @@ internal class WonderGuard : CustomAbility
     public override void Execute(Contract c)
     {
         if (c is not AttackContract ac) return;
+        if (ac.Receiver.Ability is not WonderGuard) return;
         var prop = ac.Word.CalcAmp(ac.Receiver.CurrentWord);
         ac.PropDmg = prop;
         if (ac.Receiver.Ability is not WonderGuard) return;
@@ -178,25 +179,27 @@ internal class Kakutei : CustomAbility
     public override List<string> CustomName => new() { "dc", "DC", "かくてい", "確定", "kakutei", "Kakutei", "KAKUTEI" };
     public override string Description => "人体タイプの言葉を使った時、「確定」することがある";
     public override string ImgFile => "kakutei.gif";
+    const int KAKUTEI = 12140000;
     bool _ketsunaanaFlag = false;
     public override void Execute(Contract c)
     {
         if (c is not AttackContract ac) return;
+        if (ac.Actor.Ability is not Kakutei) return;
         if(ac.State == AbilityType.PropCalced && ac.Actor.CurrentWord.ContainsType(WordType.Body) && RandomFlag(5, ac.Actor.Luck))
         {
-            ac.PropDmg = 1214;
+            ac.PropDmg = KAKUTEI;
             _ketsunaanaFlag = true;
         }
-        if(ac.State == AbilityType.CritDecided && _ketsunaanaFlag)
+        if(ac.State == AbilityType.CritDecided && _ketsunaanaFlag && ac.PropDmg == KAKUTEI)
         {
             ac.CritFlag = true;
         }
-        if(ac.State == AbilityType.ActionExecuted && _ketsunaanaFlag) 
+        if(ac.State == AbilityType.ActionExecuted && _ketsunaanaFlag && ac.PropDmg == KAKUTEI) 
         {
             ac.Message.RemoveAt(ac.Message.Count - 1);
             ac.Message.RemoveAt(ac.Message.Count - 1);
         }
-        if(ac.State == AbilityType.ActionEnd && _ketsunaanaFlag)
+        if(ac.State == AbilityType.ActionEnd && _ketsunaanaFlag && ac.PropDmg == KAKUTEI)
         {
             ac.Message.Add("一撃必殺！", Notice.EffectiveProp);
             _ketsunaanaFlag = false;

@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SBSimulatorMaui.OnlineBattlePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:SBSimulatorMaui"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
+    Title="OnlineBattlePage"
+    Background="#F5F6F1">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack" />
+    </Shell.BackButtonBehavior>
+    <Grid x:Name="BattleGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.2*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <!--#region Main View-->
+
+        <!--#region Battle Screen-->
+        <Image
+            Grid.Row="1"
+            Aspect="AspectFill"
+            Source="ground.jpg" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="0.8*" />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="15,10,10,-80"
+                BackgroundColor="#F5F6F1"
+                Stroke="#F5F6F1"
+                StrokeShape="Ellipse" />
+            <Grid
+                x:Name="AllyWord"
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Margin="0,-80,0,-7"
+                RowSpacing="-8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid
+                    x:Name="AllyEffect"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="4"
+                    Opacity="0">
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Opacity="0.5"
+                        Stroke="Transparent"
+                        StrokeThickness="3">
+                        <Image x:Name="ImgAllyEffectOuter" />
+                    </Border>
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Stroke="Transparent"
+                        StrokeThickness="20">
+                        <Image x:Name="ImgAllyEffectInner" />
+                    </Border>
+                </Grid>
+                <Image
+                    x:Name="ImgAllyType1"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrAllyType1"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="20"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="LblAllyType1"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <Image
+                    x:Name="ImgAllyType2"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrAllyType2"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    HorizontalOptions="Center"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="50">
+                    <Label
+                        x:Name="LblAllyType2"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <Label
+                    x:Name="LblAllyWord"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    FontSize="52"
+                    FontFamily="MPlus1pBold"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    VerticalOptions="FillAndExpand" />
+            </Grid>
+            <HorizontalStackLayout
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="20,0,0,20"
+                HeightRequest="50"
+                HorizontalOptions="EndAndExpand"
+                Spacing="-6">
+                <Polygon
+                    Fill="#F5F6F1"
+                    HorizontalOptions="End"
+                    Points="20,20 20,0 0,20"
+                    Stroke="#F5F6F1"
+                    StrokeThickness="0"
+                    VerticalOptions="EndAndExpand" />
+                <Border
+                    Margin="0,-30,0,-0.24"
+                    Background="#F5F6F1"
+                    Stroke="#F5F6F1"
+                    StrokeShape="RoundRectangle 10,0,0,0"
+                    StrokeThickness="0"
+                    VerticalOptions="EndAndExpand">
+                    <VerticalStackLayout Margin="20,8,5,20" Spacing="3">
+                        <HorizontalStackLayout Spacing="5">
+                            <Label
+                                x:Name="LblAllyName"
+                                FontFamily="MPlus1pRegular"
+                                FontSize="19.5" />
+                            <HorizontalStackLayout Spacing="10">
+                                <Border
+                                    x:Name="BdrAllyCPU"
+                                    BackgroundColor="SlateGray"
+                                    IsVisible="False"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 5,5,5,5">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="SlateGray"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="CPU"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                                <Border
+                                    x:Name="BdrAllyPoison"
+                                    Background="#8F42D4"
+                                    Opacity="0"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 20,20,20,20">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="#8F42D4"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="どく"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                        <Grid
+                            x:Name="AllyHPBar"
+                            Margin="0,0,20,0"
+                            HorizontalOptions="StartAndExpand"
+                            Opacity="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <BoxView
+                                x:Name="AllyHPBarAll"
+                                Grid.Row="0"
+                                BackgroundColor="#626362"
+                                HeightRequest="5"
+                                HorizontalOptions="StartAndExpand"
+                                WidthRequest="400"
+                                Color="#626362" />
+                            <BoxView
+                                x:Name="AllyHPBarRemain"
+                                Grid.Row="0"
+                                BackgroundColor="#00DB0E"
+                                HeightRequest="5"
+                                HorizontalOptions="StartAndExpand"
+                                ScaleX="2"
+                                TranslationX="-200"
+                                WidthRequest="400"
+                                Color="#00DB0E" />
+                        </Grid>
+                        <Label
+                            x:Name="LblAllyHP"
+                            FontFamily="Renner"
+                            FontSize="20" />
+                    </VerticalStackLayout>
+                </Border>
+            </HorizontalStackLayout>
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="70,20,70,-20"
+                BackgroundColor="#F5F6F1"
+                Stroke="#F5F6F1"
+                StrokeShape="Ellipse" />
+            <Grid
+                x:Name="FoeWord"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="0,-20,0,-27"
+                ColumnSpacing="0"
+                RowSpacing="-20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid
+                    x:Name="FoeEffect"
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="4"
+                    Opacity="0">
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Opacity="0.5"
+                        Stroke="Transparent"
+                        StrokeThickness="3">
+                        <Image x:Name="ImgFoeEffectOuter" />
+                    </Border>
+                    <Border
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="4"
+                        Background="Transparent"
+                        Stroke="Transparent"
+                        StrokeThickness="20">
+                        <Image x:Name="ImgFoeEffectInner" />
+                    </Border>
+                </Grid>
+                <Image
+                    x:Name="ImgFoeType1"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrFoeType1"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HeightRequest="20"
+                    HorizontalOptions="Center"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="70">
+                    <Label
+                        x:Name="LblFoeType1"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <Image
+                    x:Name="ImgFoeType2"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    HeightRequest="120"
+                    WidthRequest="120" />
+                <Border
+                    x:Name="BdrFoeType2"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HeightRequest="20"
+                    Opacity="0"
+                    StrokeShape="RoundRectangle 20,20,20,20"
+                    VerticalOptions="Center"
+                    WidthRequest="50">
+                    <Label
+                        x:Name="LblFoeType2"
+                        BackgroundColor="#E5E9EE"
+                        FontFamily="MPlus1pRegular"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center" />
+                </Border>
+                <Label
+                    x:Name="LblFoeWord"
+                    FontSize="52"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    FontFamily="MPlus1pBold"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center"/>
+            </Grid>
+            <HorizontalStackLayout
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,-10,20,20"
+                HeightRequest="100"
+                HorizontalOptions="Start"
+                Spacing="-6">
+                <Border
+                    Margin="0,20,0,-0.25"
+                    Background="#F5F6F1"
+                    Stroke="#F5F6F1"
+                    StrokeShape="RoundRectangle 0,10,0,0"
+                    VerticalOptions="EndAndExpand">
+                    <VerticalStackLayout Margin="10,8,5,20" Spacing="3">
+                        <HorizontalStackLayout Spacing="5">
+                            <Label
+                                x:Name="LblFoeName"
+                                FontFamily="MPlus1pRegular"
+                                FontSize="19.5" />
+                            <HorizontalStackLayout Spacing="10">
+                                <Border
+                                    x:Name="BdrFoeCPU"
+                                    BackgroundColor="SlateGray"
+                                    IsVisible="False"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 5,5,5,5">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="SlateGray"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="CPU"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                                <Border
+                                    x:Name="BdrFoePoison"
+                                    Background="#8F42D4"
+                                    Opacity="0"
+                                    Stroke="Transparent"
+                                    StrokeShape="RoundRectangle 20,20,20,20">
+                                    <Label
+                                        Padding="14,0,14,0"
+                                        BackgroundColor="#8F42D4"
+                                        FontFamily="MPlus1pRegular"
+                                        FontSize="16.8"
+                                        Text="どく"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                        <Grid
+                            x:Name="FoeHPBar"
+                            Margin="0,0,20,0"
+                            HorizontalOptions="StartAndExpand"
+                            Opacity="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <BoxView
+                                x:Name="FoeHPBarAll"
+                                Grid.Row="0"
+                                BackgroundColor="#626362"
+                                HeightRequest="5"
+                                HorizontalOptions="Start"
+                                WidthRequest="400"
+                                Color="#626362" />
+                            <BoxView
+                                x:Name="FoeHPBarRemain"
+                                Grid.Row="0"
+                                BackgroundColor="#00DB0E"
+                                HeightRequest="5"
+                                HorizontalOptions="Start"
+                                ScaleX="2"
+                                TranslationX="-200"
+                                WidthRequest="400"
+                                Color="#00DB0E" />
+                        </Grid>
+                        <Label
+                            x:Name="LblFoeHP"
+                            FontFamily="Renner"
+                            FontSize="20" />
+                    </VerticalStackLayout>
+                </Border>
+                <Polygon
+                    Fill="#F5F6F1"
+                    Points="0,20 0,0 20,20"
+                    Stroke="#F5F6F1"
+                    StrokeThickness="0"
+                    VerticalOptions="EndAndExpand" />
+            </HorizontalStackLayout>
+            <Border
+                x:Name="BdrInitialChar"
+                Grid.RowSpan="4"
+                Grid.ColumnSpan="2"
+                Background="White"
+                HeightRequest="70"
+                HorizontalOptions="Center"
+                MaximumHeightRequest="70"
+                MaximumWidthRequest="70"
+                MinimumHeightRequest="70"
+                MinimumWidthRequest="70"
+                Opacity="0"
+                Stroke="Transparent"
+                StrokeShape="Ellipse"
+                VerticalOptions="Center"
+                WidthRequest="70">
+                <Label
+                    x:Name="LblInitialChar"
+                    Background="Transparent"
+                    FontFamily="MPlus1pBold"
+                    FontSize="50"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+            </Border>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Entry and Message-->
+        <BoxView
+            x:Name="BoxEntryHider"
+            Grid.Row="2"
+            Grid.RowSpan="2"
+            Opacity="1"
+            Color="#333333" />
+        <Label
+            x:Name="LblEntryHider"
+            Grid.Row="2"
+            Grid.RowSpan="2"
+            Margin="17,0,0,0"
+            FontFamily="MPlus1pRegular"
+            FontSize="20"
+            Opacity="1"
+            Text="マッチング待機中：ランダムマッチ"
+            TextColor="#FFFFFF"
+            VerticalTextAlignment="Center" />
+        <HorizontalStackLayout
+            Grid.Row="3"
+            Margin="10,0,10,0"
+            Spacing="5">
+            <Border
+                x:Name="BdrWordEntry"
+                HorizontalOptions="FillAndExpand"
+                Opacity="0"
+                Stroke="#E5E9EE"
+                StrokeShape="RoundRectangle 20,20,20,20">
+                <Entry
+                    x:Name="WordEntry"
+                    BackgroundColor="#E5E9EE"
+                    Completed="WordEntry_Completed"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    IsEnabled="False"
+                    PlaceholderColor="Gray"
+                    WidthRequest="700" />
+            </Border>
+            <ImageButton
+                x:Name="BtnRegisterWord"
+                BackgroundColor="Transparent"
+                Clicked="BtnRegisterWord_Clicked"
+                HeightRequest="40"
+                Opacity="0"
+                Rotation="45"
+                IsEnabled="False"
+                Source="paper_plane.png" />
+            <Label
+                x:Name="LblServerState"
+                Margin="100,0,0,0"
+                FontFamily="MPlus1pRegular"
+                FontSize="23"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
+        </HorizontalStackLayout>
+        <Label
+            x:Name="LblAuxInfo"
+            Grid.Row="4"
+            Margin="15,0,0,0"
+            FontAttributes="Italic"
+            FontFamily="MPlus1pRegular"
+            FontSize="Micro" />
+        <!--#endregion-->
+
+        <!--#region Buttons-->
+        <Grid Grid.Row="5" Margin="30,20,30,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="BtnSituation"
+                Grid.Column="0"
+                Margin="45,20,45,20"
+                BackgroundColor="#9A5252"
+                BorderColor="#C44041"
+                BorderWidth="5"
+                Clicked="BtnSituation_Clicked"
+                FontFamily="MPlus1pBold"
+                FontSize="Small"
+                IsVisible="False"
+                Text="じょうきょう" />
+            <Button
+                x:Name="BtnAbility"
+                Grid.Column="1"
+                Margin="45,20,45,20"
+                BackgroundColor="#416F27"
+                BorderColor="#54A836"
+                BorderWidth="5"
+                Clicked="BtnAbility_Clicked"
+                FontFamily="MPlus1pBold"
+                FontSize="Small"
+                IsVisible="False"
+                Text="とくせい" />
+            <Button
+                x:Name="BtnEscape"
+                Grid.Column="2"
+                Margin="45,20,45,20"
+                BackgroundColor="#28536F"
+                BorderColor="#A8F0FF"
+                BorderWidth="5"
+                Clicked="BtnEscape_Clicked"
+                FontFamily="MPlus1pBold"
+                FontSize="Small"
+                Text="にげる" />
+        </Grid>
+        <!--#endregion-->
+
+        <!--#endregion-->
+    </Grid>
+</ContentPage>

@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS8632
+using System.Text;
 using static SBSimulatorMaui.Word;
 
 namespace SBSimulatorMaui;
@@ -21,7 +22,7 @@ public class Player
     /// <summary>
     /// 残り体力
     /// </summary>
-    public int HP 
+    public int HP
     {
         get => _hp;
         internal set => _hp = Math.Min(MaxHP, Math.Max(0, value));
@@ -37,7 +38,7 @@ public class Player
     /// <summary>
     /// 攻撃力を指定するインデックス値
     /// </summary>
-    public int ATKIndex 
+    public int ATKIndex
     {
         get => _atkIndex;
         internal set => _atkIndex = Math.Min(playerBufCap.Length - 1, Math.Max(0, value));
@@ -52,10 +53,10 @@ public class Player
     /// <summary>
     /// 防御力を指定するインデックス値
     /// </summary>
-    public int DEFIndex 
-    { 
+    public int DEFIndex
+    {
         get => _defIndex;
-        internal set => _defIndex = Math.Min(playerBufCap.Length - 1, Math.Max(0, value)); 
+        internal set => _defIndex = Math.Min(playerBufCap.Length - 1, Math.Max(0, value));
     }
 
     /// <summary>
@@ -96,14 +97,14 @@ public class Player
     /// <summary>
     /// 最大体力の値
     /// </summary>
-    public int MaxHP 
+    public int MaxHP
     {
         get => _maxHP;
-        set 
+        set
         {
             _maxHP = value;
             HP = Math.Min(HP, _maxHP);
-        } 
+        }
     }
     int _maxHP = 60;
 
@@ -388,6 +389,52 @@ public class Player
     {
         Parent = parent;
     }
+    public string Serialize()
+    {
+        var sb = new StringBuilder();
+        sb.Append(Name);
+        foreach (var i in new[]
+        {
+            HP.ToString(), MaxHP.ToString(), ATKIndex.ToString(), DEFIndex.ToString(),
+            CurrentWord.Serialize(), AbilityManager.Serialize(Ability.GetType()),
+            ((int)State).ToString(), ((int)Proceeding).ToString()
+        })
+        {
+            sb.Append('#' + i);
+        }
+        return sb.ToString();
+    }
+    public static Player Deserialize(string textData)
+    {
+        try
+        {
+            var data = textData.Split('#');
+            return new Player
+            {
+                Name = data[0],
+                HP = int.Parse(data[1]),
+                MaxHP = int.Parse(data[2]),
+                ATKIndex = int.Parse(data[3]),
+                DEFIndex = int.Parse(data[4]),
+                CurrentWord = Word.Deserialize(data[5]),
+                Ability = AbilityManager.Deserialize(data[6]),
+                State = (PlayerState)int.Parse(data[7]),
+                Proceeding = (Proceeds)int.Parse(data[8]),
+            };
+        }
+        catch 
+        {
+            throw; 
+        }
+    }
+    public void Sync(Player playerData)
+    {
+        HP = playerData.HP;
+        MaxHP = playerData.MaxHP;
+        ATKIndex = playerData.ATKIndex;
+        DEFIndex = playerData.DEFIndex;
+        State = playerData.State;
+    }
     #endregion
 
     #region minor classes
@@ -395,7 +442,7 @@ public class Player
     /// <summary>
     /// とくせい「はんしょく」の情報管理に用いる補助クラス。
     /// </summary>
-    public  class BredString
+    public class BredString
     {
         /// <summary>
         /// 単語の名前

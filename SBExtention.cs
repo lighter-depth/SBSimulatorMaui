@@ -1,4 +1,5 @@
 ﻿using Plugin.Maui.Audio;
+using System.Reflection;
 using static SBSimulatorMaui.Word;
 
 namespace SBSimulatorMaui;
@@ -25,7 +26,7 @@ public static class SBExtention
             'ら', 'り', 'る', 'れ', 'ろ',
             'わ'
         };
-        return charList[new Random().Next(charList.Count)];
+        return charList[SBOptions.Random.Next(charList.Count)];
     }
     /// <summary>
     /// <see cref="WordType"/>列挙型を文字列に変換します。
@@ -257,7 +258,7 @@ public static class SBExtention
         {
             Luck.Lucky => maxValue - 1,
             Luck.UnLucky => 0,
-            _ => new Random().Next(maxValue)
+            _ => SBOptions.Random.Next(maxValue)
         };
     }
     /// <summary>

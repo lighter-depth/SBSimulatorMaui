@@ -101,6 +101,18 @@ public class AbilityManager
         foreach(var i in subClasses) result.Add(Activator.CreateInstance(i) as Ability);
         return result;
     }
+    public static string Serialize(Type abilityType)
+    {
+        for(var i = 0; i < Abilities.Count; i++) 
+        {
+            if (Abilities[i].GetType() == abilityType) return i.ToString();
+        }
+        throw new ArgumentException($"Ability {abilityType.Name} has not found");
+    }
+    public static Ability Deserialize(string abilityIndex)
+    {
+        return Abilities[int.Parse(abilityIndex)];
+    }
     #endregion
 
     /// <summary>

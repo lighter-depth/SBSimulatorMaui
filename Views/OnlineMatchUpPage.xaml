@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SBSimulatorMaui.OnlineMatchUpPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:SBSimulatorMaui"
+    Title="OnlineMatchUpPage"
+    Background="#F5F6F1"
+    Loaded="ContentPage_Loaded">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior x:Name="CmdBtnBack" />
+    </Shell.BackButtonBehavior>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label
+            Grid.ColumnSpan="2"
+            FontFamily="MPlus1pBold"
+            FontSize="40"
+            HorizontalOptions="Center"
+            Text="オンラインモード"
+            VerticalOptions="Center" />
+        <Line
+            Grid.ColumnSpan="2"
+            BackgroundColor="DarkGray"
+            HorizontalOptions="FillAndExpand"
+            Stroke="DarkGray"
+            StrokeThickness="2"
+            VerticalOptions="End" />
+        <Label
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            FontFamily="MPlus1pRegular"
+            FontSize="30"
+            HorizontalOptions="Center"
+            Text="プレイヤーの設定"
+            VerticalOptions="Center" />
+        <Grid
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label
+                FontFamily="MPlus1pRegular"
+                FontSize="30"
+                HorizontalOptions="Center"
+                Text=" なまえ "
+                VerticalOptions="Center" />
+            <HorizontalStackLayout
+                Grid.Column="1"
+                Margin="0,0,50,0"
+                HorizontalOptions="Center"
+                Spacing="10"
+                VerticalOptions="Center">
+                <Label
+                    x:Name="LblPlayerName"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="30"
+                    Text="じぶん"
+                    VerticalOptions="Center" />
+                <ImageButton
+                    x:Name="BtnPlayerNameSetting"
+                    BackgroundColor="White"
+                    Clicked="BtnPlayerNameSetting_Clicked"
+                    CornerRadius="40"
+                    MaximumHeightRequest="30"
+                    MaximumWidthRequest="30"
+                    MinimumHeightRequest="30"
+                    MinimumWidthRequest="30"
+                    Source="pen.png"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <Label
+                Grid.Row="1"
+                FontFamily="MPlus1pRegular"
+                FontSize="30"
+                HorizontalOptions="Center"
+                Text="とくせい"
+                VerticalOptions="Center" />
+            <HorizontalStackLayout
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="-80,0,0,0"
+                HorizontalOptions="Center"
+                Spacing="-10"
+                VerticalOptions="Center">
+                <Border
+                    BackgroundColor="White"
+                    MaximumHeightRequest="130"
+                    MaximumWidthRequest="130"
+                    MinimumHeightRequest="130"
+                    MinimumWidthRequest="130"
+                    Stroke="White"
+                    StrokeShape="Ellipse">
+                    <Image x:Name="ImgPlayerAbility" Source="normal.gif" />
+                </Border>
+                <ImageButton
+                    x:Name="BtnPlayerAbilitySetting"
+                    Margin="-20,0,0,0"
+                    BackgroundColor="White"
+                    Clicked="BtnPlayerAbilitySetting_Clicked"
+                    CornerRadius="40"
+                    MaximumHeightRequest="30"
+                    MaximumWidthRequest="30"
+                    MinimumHeightRequest="30"
+                    MinimumWidthRequest="30"
+                    Source="pen.png"
+                    VerticalOptions="End" />
+            </HorizontalStackLayout>
+        </Grid>
+        <Line
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            BackgroundColor="DarkGray"
+            HorizontalOptions="FillAndExpand"
+            Stroke="DarkGray"
+            StrokeThickness="2"
+            VerticalOptions="End" />
+        <Label
+            x:Name="LblStatus"
+            Grid.Row="3"
+            FontFamily="MPlus1pRegular"
+            FontSize="25"
+            HorizontalOptions="Center"
+            Text="✅ 準備完了！"
+            TextColor="LimeGreen"
+            VerticalOptions="Center" />
+        <Button
+            x:Name="BattleStartBtn"
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="0,35,50,35"
+            BackgroundColor="#CD5C5C"
+            Clicked="BattleStartBtn_Clicked"
+            FontFamily="MPlus1pRegular"
+            FontSize="30"
+            Text="ランダムマッチ" />
+    </Grid>
+</ContentPage>

@@ -105,6 +105,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AngleSharp" Version="1.0.4" />
 		<PackageReference Include="Kana.NET" Version="1.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Plugin.Maui.Audio" Version="1.0.0" />
@@ -113,31 +114,37 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="BattleLoadingPage.xaml">
+	  <MauiXaml Update="Views\BattleLoadingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="BattlePage.xaml">
+	  <MauiXaml Update="Views\BattlePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="InfoPage.xaml">
+	  <MauiXaml Update="Views\InfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MainOptionPage.xaml">
+	  <MauiXaml Update="Views\MainOptionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MakeUpAbilityPage.xaml">
+	  <MauiXaml Update="Views\MakeUpAbilityPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MatchUpPage.xaml">
+	  <MauiXaml Update="Views\MatchUpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ModeMakeUpPage.xaml">
+	  <MauiXaml Update="Views\ModeMakeUpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="NameSettingPage.xaml">
+	  <MauiXaml Update="Views\NameSettingPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="PlayerMakeUpPage.xaml">
+	  <MauiXaml Update="Views\OnlineBattlePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\OnlineMatchUpPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PlayerMakeUpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

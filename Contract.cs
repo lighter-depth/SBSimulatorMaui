@@ -368,11 +368,7 @@ internal class AttackContract : Contract
     public void OnPropCalc()
     {
         State = AbilityType.PropCalced;
-        if (!Actor.Ability.Type.HasFlag(State) && !Receiver.Ability.Type.HasFlag(State))
-        {
-            PropDmg = Word.CalcAmp(Receiver.CurrentWord);
-            return;
-        }
+        PropDmg = Word.CalcAmp(Receiver.CurrentWord);
         if (Actor.Ability.Type.HasFlag(State))
             Actor.Ability.Execute(this);
         if (Receiver.Ability.Type.HasFlag(State))

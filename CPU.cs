@@ -110,7 +110,7 @@ internal abstract class CPUPlayer : Player
         if (Parent is null) return false;
         word = new();
         var resultWords = SBDictionary.TypedWords.Where(x => x.Key[0] == startChar && x.Value.Contains(type) && !Parent.UsedWords.Contains(x.Key)).ToDictionary(p => p.Key, p => p.Value);
-        var random = new Random().Next(resultWords.Count);
+        var random = SBOptions.Random.Next(resultWords.Count);
         if (resultWords.Count != 0 && Parent.TryInferWordTypes(resultWords.ElementAt(random).Key, out var wordTemp))
         {
             word = wordTemp;
@@ -132,7 +132,7 @@ internal abstract class CPUPlayer : Player
         if (Parent is null) return false;
         word = new();
         var resultWords = SBDictionary.TypedWords.Where(x => x.Key[0] == startChar && x.Value.Contains(type1) && x.Value.Contains(type2) && !Parent.UsedWords.Contains(x.Key)).ToDictionary(p => p.Key, p => p.Value);
-        var random = new Random().Next(resultWords.Count);
+        var random = SBOptions.Random.Next(resultWords.Count);
         if (resultWords.Count != 0 && Parent.TryInferWordTypes(resultWords.ElementAt(random).Key, out var wordTemp))
         {
             word = wordTemp;
@@ -151,7 +151,7 @@ internal abstract class CPUPlayer : Player
         word = null;
         if (Parent is null) return false;
         var resultWords = SBDictionary.PerfectNameDic.Where(x => pred(x) && !Parent.UsedWords.Contains(x)).ToList();
-        var random = new Random().Next(resultWords.Count);
+        var random = SBOptions.Random.Next(resultWords.Count);
         if (resultWords.Count != 0 && Parent.TryInferWordTypes(resultWords[random], out var wordTemp))
         {
             word = wordTemp;
@@ -170,7 +170,7 @@ internal abstract class CPUPlayer : Player
         word = null;
         if (Parent is null) return false;
         var resultWords = SBDictionary.TypedWords.Keys.Where(x => pred(x) && !Parent.UsedWords.Contains(x)).ToList();
-        var random = new Random().Next(resultWords.Count);
+        var random = SBOptions.Random.Next(resultWords.Count);
         if (resultWords.Count != 0 && Parent.TryInferWordTypes(resultWords[random], out var wordTemp))
         {
             word = wordTemp;
@@ -202,7 +202,7 @@ internal abstract class CPUPlayer : Player
         }
         if(resultList.Count > 0)
         {
-            word = resultList[new Random().Next(resultList.Count)];
+            word = resultList[SBOptions.Random.Next(resultList.Count)];
             return true;
         }
         return false;

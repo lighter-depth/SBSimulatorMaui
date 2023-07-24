@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-using Plugin.Maui.Audio;
+using Microsoft.Maui.LifecycleEvents;
+using Microsoft.UI.Windowing;
 
 namespace SBSimulatorMaui;
 
@@ -21,24 +22,33 @@ public static class MauiProgram
                 fonts.AddFont("MPLUS1p-Black.ttf", "MPlus1pBlack");
                 fonts.AddFont("MPLUSRounded1c-Black.ttf", "MPlus1cBlack");
 				fonts.AddFont("Renner_ 400 Book.ttf", "Renner");
-            });
-
-#if WINDOW
-		Microsoft.Maui.Handlers.LabelHandler.Mapper.AppendToMapping("FontFamily", (handler, element) =>
-		{
-			if(element.Font.Family == "MPlus1pBlack")
+            })
+			.ConfigureLifecycleEvents(events => 
 			{
-				const string MPlus1pBlackFamily = "ms-appx:///MPLUS1p-Black.ttf";
-				handler.PlatformView.FontFamily = new Microsoft.UI.Xaml.Media.FontFamily(MPlus1pBlackFamily);
+				events.AddWindows(windowsLifecycleBuilder =>
+				{
+					windowsLifecycleBuilder.OnWindowCreated(window =>
+					{
+						var handle = WinRT.Interop.WindowNative.GetWindowHandle(window);
+						var id = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(handle);
+						var appWindow = AppWindow.GetFromWindowId(id);
+						appWindow.Closing += AppWindow_Closing;
+					});
+				});
+			});
 
-            }
-		});
-#endif
+
 
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();
+	}
+	private static async void AppWindow_Closing(object sender, AppWindowClosingEventArgs e)
+	{
+		e.Cancel = true;
+		await Server.CancelAsync();
+        Application.Current.Quit();
 	}
 }
