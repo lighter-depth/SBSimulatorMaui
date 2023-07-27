@@ -39,30 +39,39 @@ internal static class Server
     }
     static async Task SetUpAsync(CancellationToken ct)
     {
-        while (!HasEntered && !ct.IsCancellationRequested)
+        try
         {
-            HasEntered = await TryFindRoomAsync(ct);
-            if (!HasEntered) await Task.Delay(7000, ct);
+
+
+            while (!HasEntered && !ct.IsCancellationRequested)
+            {
+                HasEntered = await TryFindRoomAsync(ct);
+                if (!HasEntered) await Task.Delay(7000, ct);
+            }
+            if (ct.IsCancellationRequested) return;
+            await ReadAsync(ct);
+            (CurrentRoom, IsHost) = CurrentRoom.Header switch
+            {
+                RoomState.Empty => (CurrentRoom with
+                {
+                    Header = RoomState.Waiting,
+                    Player1Info = InitialPlayerInfo,
+                    InitialChar = SBExtention.GetRandomChar().ToString(),
+                    Seed = SBOptions.Random.Next(65535)
+                }, true),
+                RoomState.Waiting => (CurrentRoom with
+                {
+                    Header = RoomState.Full,
+                    Player2Info = InitialPlayerInfo
+                }, false),
+                _ => (CurrentRoom, IsHost)
+            };
+            await RewriteAsync(ct);
         }
-        if (ct.IsCancellationRequested) return;
-        await ReadAsync(ct);
-        (CurrentRoom, IsHost) = CurrentRoom.Header switch
+        catch
         {
-            RoomState.Empty => (CurrentRoom with
-            {
-                Header = RoomState.Waiting,
-                Player1Info = InitialPlayerInfo,
-                InitialChar = SBExtention.GetRandomChar().ToString(),
-                Seed = SBOptions.Random.Next(65535)
-            }, true),
-            RoomState.Waiting => (CurrentRoom with
-            {
-                Header = RoomState.Full,
-                Player2Info = InitialPlayerInfo
-            }, false),
-            _ => (CurrentRoom, IsHost)
-        };
-        await RewriteAsync(ct);
+            throw;
+        }
     }
     static async Task WaitUntilMatchingAsync(CancellationToken ct)
     {
@@ -84,66 +93,108 @@ internal static class Server
             await WaitUntilMatchingAsync(ct);
             if (!HasMatched) return;
         }
-        catch (TaskCanceledException) 
+        catch (TaskCanceledException)
         {
             return;
         }
     }
     public static async Task CancelAsync()
     {
-        await LeaveRoomAsync(Cancellation.Token);
-        Cancellation.Cancel();
+        try
+        {
+            await LeaveRoomAsync(Cancellation.Token);
+            Cancellation.Cancel();
+        }
+        catch
+        {
+            return;
+        }
     }
     public static async Task OverwriteAsync(string player1Info, string player2Info)
     {
-        CurrentRoom = CurrentRoom with { Player1Info = player1Info, Player2Info = player2Info };
-        await RewriteAsync(Cancellation.Token);
+        try
+        {
+            CurrentRoom = CurrentRoom with { Player1Info = player1Info, Player2Info = player2Info };
+            await RewriteAsync(Cancellation.Token);
+        }
+        catch
+        {
+            throw;
+        }
     }
     static async Task RewriteAsync(CancellationToken ct)
     {
-        var doc = await GetDocumentAsync(ct);
-        var button = (IHtmlElement)doc.GetElementsByName("edit").FirstOrDefault();
-        var display = (IHtmlTextAreaElement)doc.GetElementById("txt");
-        button.DoClick();
-        var text = display.TextContent;
-        var rooms = text.Split("\n").ToList();
-        rooms[RoomIndex] = CurrentRoom.ToString();
-        display.Value = string.Join("\r\n", rooms);
-        await display.SubmitAsync();
-        await WaitAsync(ct);
-        button.DoClick();
+        try
+        {
+            var doc = await GetDocumentAsync(ct);
+            var button = (IHtmlElement)doc.GetElementsByName("edit").FirstOrDefault();
+            var display = (IHtmlTextAreaElement)doc.GetElementById("txt");
+            button.DoClick();
+            var text = display.TextContent;
+            var rooms = text.Split("\n").ToList();
+            rooms[RoomIndex] = CurrentRoom.ToString();
+            display.Value = string.Join("\r\n", rooms);
+            await display.SubmitAsync();
+            await WaitAsync(ct);
+            button.DoClick();
+        }
+        catch
+        {
+            throw;
+        }
     }
     static async Task<bool> TryFindRoomAsync(CancellationToken ct)
     {
-        var doc = await GetDocumentAsync(ct);
-        var text = doc.GetElementById("txt").TextContent;
-        var rooms = text.Split("\n").Select(x => x.ToRoom()).ToList();
-        var headers = rooms.Select(x => x.Header).ToList();
-        if (headers.All(x => x == RoomState.Full)) return false;
-        if (headers.Contains(RoomState.Waiting))
+        try
         {
-            RoomIndex = headers.IndexOf(RoomState.Waiting);
+            var doc = await GetDocumentAsync(ct);
+            var text = doc.GetElementById("txt").TextContent;
+            var rooms = text.Split("\n").Select(x => x.ToRoom()).ToList();
+            var headers = rooms.Select(x => x.Header).ToList();
+            if (headers.All(x => x == RoomState.Full)) return false;
+            if (headers.Contains(RoomState.Waiting))
+            {
+                RoomIndex = headers.IndexOf(RoomState.Waiting);
+                return true;
+            }
+            RoomIndex = headers.IndexOf(RoomState.Empty);
             return true;
         }
-        RoomIndex = headers.IndexOf(RoomState.Empty);
-        return true;
+        catch
+        {
+            throw;
+        }
     }
     static async Task LeaveRoomAsync(CancellationToken ct)
     {
-        CurrentRoom = Room.Empty;
-        await RewriteAsync(ct);
+        try
+        {
+            CurrentRoom = Room.Empty;
+            await RewriteAsync(ct);
+        }
+        catch
+        {
+            throw;
+        }
     }
     static async Task ReadAsync(CancellationToken ct)
     {
-        var doc = await GetDocumentAsync(ct);
-        var text = doc.GetElementById("txt").TextContent;
-        var rooms = text.Split("\n").Select(x => x.ToRoom()).ToList();
-        var previousRoom = CurrentRoom with { };
-        CurrentRoom = rooms[RoomIndex];
-        if (CurrentRoom != previousRoom) NotificationFlag = true;
+        try
+        {
+            var doc = await GetDocumentAsync(ct);
+            var text = doc.GetElementById("txt").TextContent;
+            var rooms = text.Split("\n").Select(x => x.ToRoom()).ToList();
+            var previousRoom = CurrentRoom with { };
+            CurrentRoom = rooms[RoomIndex];
+            if (CurrentRoom != previousRoom) NotificationFlag = true;
+        }
+        catch
+        {
+            throw;
+        }
     }
     public static async Task ForceReadAsync() => await ReadAsync(Cancellation.Token);
-    static async Task WaitAsync(CancellationToken ct) 
+    static async Task WaitAsync(CancellationToken ct)
     {
         try
         {
@@ -156,8 +207,15 @@ internal static class Server
     }
     static async Task<IDocument> GetDocumentAsync(CancellationToken ct)
     {
-        var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
-        var doc = await context.OpenAsync(ServerConfig, ct);
-        return doc;
+        try
+        {
+            var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
+            var doc = await context.OpenAsync(ServerConfig, ct);
+            return doc;
+        }
+        catch
+        {
+            throw;
+        }
     }
 }

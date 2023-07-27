@@ -87,10 +87,11 @@ internal abstract class CPUPlayer : Player
     /// <returns><see cref="Battle"/>クラスへの命令を表す文字列</returns>
     public async Task<Order> ExecuteAsync()
     {
-            var timer = Parent?.IsCPUDelayEnabled == true ? Task.Delay(_millisecondsDelay) : Task.Run(() => { });
-            var result = await Task.Run(() => Execute());
-            await timer;
-            return result;
+        var timer = Parent?.IsCPUDelayEnabled == true ? Task.Delay(_millisecondsDelay) : Task.Run(() => { });
+        var result = await Task.Run(Execute);
+        await timer;
+        if (string.IsNullOrWhiteSpace(result.Body)) return new(OrderType.Error) { ErrorMessage = "単語が見つかりませんでした" };
+        return result;
     }
     /// <summary>
     /// CPUの思考ルーチンを実行します。
@@ -104,7 +105,7 @@ internal abstract class CPUPlayer : Player
     /// <param name="type">タイプの指定</param>
     /// <param name="word">出力された<see cref="Word"/>クラスのインスタンス</param>
     /// <returns>単語が見つかったかどうかを表すフラグ</returns>
-    public bool TryWordSearchByType(char startChar, WordType type, [NotNullWhen(true)]out Word? word)
+    public bool TryWordSearchByType(char startChar, WordType type, [NotNullWhen(true)] out Word? word)
     {
         word = null;
         if (Parent is null) return false;
@@ -146,7 +147,7 @@ internal abstract class CPUPlayer : Player
     /// <param name="pred">条件の指定</param>
     /// <param name="word">出力された<see cref="Word"/>クラスのインスタンス</param>
     /// <returns>単語が見つかったかどうかを表すフラグ</returns>
-    public bool TryWordSearchByName(Predicate<string> pred, [NotNullWhen(true)]out Word? word)
+    public bool TryWordSearchByName(Predicate<string> pred, [NotNullWhen(true)] out Word? word)
     {
         word = null;
         if (Parent is null) return false;
@@ -185,22 +186,22 @@ internal abstract class CPUPlayer : Player
         word = null;
         var resultTypeList = new List<Word>();
         var resultList = new List<Word>();
-        if(Parent is null) return false;
-        for(var i = 0; i < NUMBER_OF_TYPES; i++)
+        if (Parent is null) return false;
+        for (var i = 0; i < NUMBER_OF_TYPES; i++)
         {
-            for(var j = 0; j < NUMBER_OF_TYPES; j++)
+            for (var j = 0; j < NUMBER_OF_TYPES; j++)
             {
                 var w = new Word(string.Empty, (WordType)i, (WordType)j);
                 if (w.CalcAmp(prev) >= 8 * Parent.CurrentPlayer.ATK / Parent.OtherPlayer.DEF) resultTypeList.Add(w);
             }
         }
         if (resultTypeList.Count == 0) return false;
-        foreach(var i in resultTypeList)
+        foreach (var i in resultTypeList)
         {
             if (TryWordSearchByType(startChar, i.Type1, i.Type2, out var wordTemp))
                 resultList.Add(wordTemp);
         }
-        if(resultList.Count > 0)
+        if (resultList.Count > 0)
         {
             word = resultList[SBOptions.Random.Next(resultList.Count)];
             return true;
@@ -336,7 +337,7 @@ internal class NuzemeAI : CPUPlayer
         if (Parent is null) return new();
         var startchar = GetStartChar();
         var word = GetLastWord();
-        if(TrySearchKillWord(startchar, Parent.OtherPlayer.CurrentWord, out var killWord))
+        if (TrySearchKillWord(startchar, Parent.OtherPlayer.CurrentWord, out var killWord))
         {
             return new(killWord.Name);
         }
@@ -344,7 +345,7 @@ internal class NuzemeAI : CPUPlayer
         {
             return new(wordNuzeme7.Name);
         }
-        if(TryWordSearchByName(x => x.Length == 6 && x[0] == startchar && x[^1] == 'ぬ', out var wordNuzeme6))
+        if (TryWordSearchByName(x => x.Length == 6 && x[0] == startchar && x[^1] == 'ぬ', out var wordNuzeme6))
         {
             return new(wordNuzeme6.Name);
         }

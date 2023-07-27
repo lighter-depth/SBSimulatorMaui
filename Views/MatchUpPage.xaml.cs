@@ -151,6 +151,5 @@ public partial class MatchUpPage : ContentPage
     {
         SBAudioManager.PlaySound("pera");
         await Shell.Current.GoToAsync(nameof(ModeMakeUpPage));
-        CustomFlag = true;
     }
 }

@@ -218,6 +218,10 @@ public class Word
     /// <returns>続けて出せるかどうかを表すフラグ</returns>
     public int IsSuitable(Word prev)
     {
+        if (Name[^1] == 'ん')
+        {
+            return -1;
+        }
         if (string.IsNullOrWhiteSpace(prev.Name))
             return 0;
         if (Name[0].IsWild() || prev.Name[^1].IsWild())
@@ -229,10 +233,6 @@ public class Word
                 return 0;
             return 1;
 
-        }
-        if (Name[^1] == 'ん')
-        {
-            return -1;
         }
         return 0;
     }

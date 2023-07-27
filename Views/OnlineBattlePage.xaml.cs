@@ -93,7 +93,6 @@ public partial class OnlineBattlePage : ContentPage
                 LblAuxInfo.Text = "相手を待っています";
                 await WaitUntilFoeActionAsync(ct);
             }
-            LblServerState.Text = Server.IsHost ? "\ud83d\udfe2 ホスト" : "\ud83d\udfe2 クライアント";
             isBeforeInit = false;
             Battle.Run();
         }
@@ -479,7 +478,6 @@ public partial class OnlineBattlePage : ContentPage
     private void SyncPlayerInfo()
     {
         var (player1Skl, player2Skl) = GetPlayerInfo();
-        Battle.Player1.Sync(player1Skl);
         Battle.Player2.Sync(player2Skl);
     }
     private async Task ShowInitialCharAsync()
@@ -525,7 +523,9 @@ public partial class OnlineBattlePage : ContentPage
     {
         var player1Info = Battle.Player1.Serialize();
         var player2Info = Battle.Player2.Serialize();
-        await Server.OverwriteAsync(player1Info, player2Info);
+        var hostInfo = Server.IsHost ? player1Info : player2Info;
+        var clientInfo = Server.IsHost ? player2Info : player1Info;
+        await Server.OverwriteAsync(hostInfo, clientInfo);
     }
 
     private void BtnRegisterWord_Clicked(object sender, EventArgs e)

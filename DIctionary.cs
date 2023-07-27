@@ -27,7 +27,7 @@ public class SBDictionary
     {
         var temp = new Dictionary<string, List<WordType>>();
         foreach (var i in NoTypeWords)
-            temp.Add(i, new() { WordType.Empty, WordType.Empty });
+            temp.TryAdd(i, new() { WordType.Empty, WordType.Empty });
         return temp;
     }
     #endregion

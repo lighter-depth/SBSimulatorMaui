@@ -97,7 +97,7 @@ public class Order
     /// <summary>
     /// エラーの情報を表す文字列
     /// </summary>
-    public string? ErrorMessage { get; private set; } = null;
+    public string? ErrorMessage { get; internal set; } = null;
     static readonly Order defaultError = new(OrderType.Error) { ErrorMessage = "なにかがおかしいよ" };
     static readonly Dictionary<string, Options> OptionDic = new()
     {
@@ -158,7 +158,7 @@ public class Order
     /// </summary>
     public static Order Parse(string[] value, Battle parent)
     {
-        var key = value.ElementAtOrDefault(0)?.ToLower();
+        var key = value.At(0)?.ToLower();
         if (key is "change" or "ch") return ParseChangeOrder(value, parent);
         if (key is "option" or "op") return ParseOptionOrder(value, parent);
         if (key is "show" or "sh")

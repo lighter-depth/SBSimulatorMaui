@@ -510,13 +510,6 @@
                 Rotation="45"
                 IsEnabled="False"
                 Source="paper_plane.png" />
-            <Label
-                x:Name="LblServerState"
-                Margin="100,0,0,0"
-                FontFamily="MPlus1pRegular"
-                FontSize="23"
-                VerticalOptions="Center"
-                VerticalTextAlignment="Center" />
         </HorizontalStackLayout>
         <Label
             x:Name="LblAuxInfo"

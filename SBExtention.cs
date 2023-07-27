@@ -268,5 +268,8 @@ public static class SBExtention
     {
         return maxValue - 1 - Random(maxValue, luck) == 0;
     }
+
+    public static T At<T>(this IEnumerable<T> source, int index) => source.ElementAtOrDefault(index);
+    public static T At<T>(this IEnumerable<T> source, Index index) => source.ElementAtOrDefault(index);
     #endregion
 }

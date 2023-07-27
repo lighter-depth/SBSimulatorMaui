@@ -2,7 +2,7 @@ namespace SBSimulatorMaui;
 
 public partial class ModeMakeUpPage : ContentPage
 {
-    bool isBeforeInit = true;
+    readonly bool isBeforeInit = true;
 	public ModeMakeUpPage()
 	{
 		InitializeComponent();
@@ -36,6 +36,7 @@ public partial class ModeMakeUpPage : ContentPage
         MatchUpPage.Mode.IsSeedInfinite = SwInfiniteSeed.IsToggled;
         SBAudioManager.PlaySound("concent");
         ShowMessage($"やどりぎの継続ターン数を {(SwInfiniteSeed.IsToggled ? "無限" : $"{Player.MaxSeedTurn}ターン")} に変更しました。");
+        MatchUpPage.CustomFlag = true;
     }
 
     private void SwAbilChange_Toggled(object sender, ToggledEventArgs e)
@@ -44,6 +45,7 @@ public partial class ModeMakeUpPage : ContentPage
         MatchUpPage.Mode.IsAbilChangeable = SwAbilChange.IsToggled;
         SBAudioManager.PlaySound("concent");
         ShowMessage($"とくせいの変更を{(SwAbilChange.IsToggled ? $"有効にしました。(上限 {Player.MaxAbilChange}回 まで)" : "無効にしました")}");
+        MatchUpPage.CustomFlag = true;
     }
 
     private void SwInfiniteCure_Toggled(object sender, ToggledEventArgs e)
@@ -52,5 +54,6 @@ public partial class ModeMakeUpPage : ContentPage
         MatchUpPage.Mode.IsCureInfinite = !SwInfiniteCure.IsToggled;
         SBAudioManager.PlaySound("concent");
         ShowMessage($"医療タイプの単語で回復可能な回数を {(!SwInfiniteCure.IsToggled ? "無限" : $"{Player.MaxCureCount}回")} に変更しました。");
+        MatchUpPage.CustomFlag = true;
     }
 }
