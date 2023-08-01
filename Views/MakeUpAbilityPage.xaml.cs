@@ -30,7 +30,7 @@ public partial class MakeUpAbilityPage : ContentPage
     }
     private void InitAbilityFlex()
     {
-        var abilities = SBOptions.AllowCustomAbility && Selector != PlayerSelector.None ? AbilityManager.Abilities : AbilityManager.CanonAbilities;
+        var abilities = SBOptions.AllowCustomAbility || Selector == PlayerSelector.None ? AbilityManager.Abilities : AbilityManager.CanonAbilities;
         foreach (var i in abilities)
         {
             var bdr = new Border

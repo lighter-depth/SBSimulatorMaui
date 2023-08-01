@@ -1,5 +1,7 @@
 ﻿
 
+using System.Text;
+
 namespace SBSimulatorMaui;
 
 internal record Room(RoomState Header, string Player1Info, string Player2Info, string InitialChar, int Seed) 

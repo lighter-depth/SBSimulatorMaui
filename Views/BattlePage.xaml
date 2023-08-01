@@ -76,7 +76,8 @@
                         Opacity="0.5"
                         Stroke="Transparent"
                         StrokeThickness="3">
-                        <Image x:Name="ImgAllyEffectOuter" />
+                        <Image
+                            x:Name="ImgAllyEffectOuter" />
                     </Border>
                     <Border
                         Grid.RowSpan="2"
@@ -84,7 +85,8 @@
                         Background="Transparent"
                         Stroke="Transparent"
                         StrokeThickness="20">
-                        <Image x:Name="ImgAllyEffectInner" />
+                        <Image
+                            x:Name="ImgAllyEffectInner"/>
                     </Border>
                 </Grid>
                 <Image
@@ -463,8 +465,8 @@
                     Completed="WordEntry_Completed"
                     FontFamily="MPlus1pRegular"
                     FontSize="20"
-                    WidthRequest="700"
-                    PlaceholderColor="Gray"/>
+                    PlaceholderColor="Gray"
+                    WidthRequest="700" />
             </Border>
             <ImageButton
                 x:Name="BtnRegisterWord"
@@ -1983,13 +1985,13 @@
                                 <Label
                                     x:Name="LblPlayerNameOptionModal"
                                     Grid.Column="1"
+                                    Margin="0,0,20,0"
+                                    FontAutoScalingEnabled="True"
                                     FontFamily="MPlus1pRegular"
                                     FontSize="32"
-                                    FontAutoScalingEnabled="True"
                                     HorizontalOptions="Start"
                                     Text="じぶん"
-                                    VerticalOptions="Center"
-                                    Margin="0,0,20,0"/>
+                                    VerticalOptions="Center" />
                             </Grid>
 
                             <Grid x:Name="CurrentAbilityViewer" ColumnDefinitions="1.8*,*">
@@ -2314,14 +2316,14 @@
                                         x:Name="ATKSlider"
                                         Grid.RowSpan="2"
                                         Background="White"
+                                        DragCompleted="ATKSlider_DragCompleted"
                                         HorizontalOptions="Fill"
                                         Maximum="6"
                                         Minimum="-6"
+                                        ValueChanged="ATKSlider_ValueChanged"
                                         VerticalOptions="Fill"
                                         WidthRequest="150"
-                                        Value="0"
-                                        DragCompleted="ATKSlider_DragCompleted"
-                                        ValueChanged="ATKSlider_ValueChanged"/>
+                                        Value="0" />
                                     <Label
                                         x:Name="LblATKViewer"
                                         Grid.RowSpan="2"
@@ -2350,9 +2352,9 @@
                                                 x:Name="BtnATKPlus"
                                                 Background="Transparent"
                                                 BorderColor="Transparent"
+                                                Clicked="BtnATKPlus_Clicked"
                                                 HorizontalOptions="FillAndExpand"
-                                                VerticalOptions="FillAndExpand"
-                                                Clicked="BtnATKPlus_Clicked"/>
+                                                VerticalOptions="FillAndExpand" />
                                         </Grid>
                                     </Border>
                                     <Border
@@ -2375,9 +2377,9 @@
                                                 x:Name="BtnATKMinus"
                                                 Background="Transparent"
                                                 BorderColor="Transparent"
+                                                Clicked="BtnATKMinus_Clicked"
                                                 HorizontalOptions="FillAndExpand"
-                                                VerticalOptions="FillAndExpand"
-                                                Clicked="BtnATKMinus_Clicked"/>
+                                                VerticalOptions="FillAndExpand" />
                                         </Grid>
                                     </Border>
                                 </Grid>
@@ -2418,14 +2420,14 @@
                                         x:Name="DEFSlider"
                                         Grid.RowSpan="2"
                                         Background="White"
+                                        DragCompleted="DEFSlider_DragCompleted"
                                         HorizontalOptions="Fill"
                                         Maximum="6"
                                         Minimum="-6"
+                                        ValueChanged="DEFSlider_ValueChanged"
                                         VerticalOptions="Fill"
                                         WidthRequest="150"
-                                        Value="0"
-                                        DragCompleted="DEFSlider_DragCompleted"
-                                        ValueChanged="DEFSlider_ValueChanged"/>
+                                        Value="0" />
                                     <Label
                                         x:Name="LblDEFViewer"
                                         Grid.RowSpan="2"
@@ -2454,9 +2456,9 @@
                                                 x:Name="BtnDEFPlus"
                                                 Background="Transparent"
                                                 BorderColor="Transparent"
+                                                Clicked="BtnDEFPlus_Clicked"
                                                 HorizontalOptions="FillAndExpand"
-                                                VerticalOptions="FillAndExpand"
-                                                Clicked="BtnDEFPlus_Clicked"/>
+                                                VerticalOptions="FillAndExpand" />
                                         </Grid>
                                     </Border>
                                     <Border
@@ -2479,9 +2481,9 @@
                                                 x:Name="BtnDEFMinus"
                                                 Background="Transparent"
                                                 BorderColor="Transparent"
+                                                Clicked="BtnDEFMinus_Clicked"
                                                 HorizontalOptions="FillAndExpand"
-                                                VerticalOptions="FillAndExpand"
-                                                Clicked="BtnDEFMinus_Clicked"/>
+                                                VerticalOptions="FillAndExpand" />
                                         </Grid>
                                     </Border>
                                 </Grid>
@@ -2501,14 +2503,14 @@
                                 <Picker
                                     x:Name="PkrPlayerLuck"
                                     Grid.Column="1"
+                                    Margin="-60,0,0,0"
                                     FontFamily="MPlus1pRegular"
                                     FontSize="27"
                                     HorizontalOptions="Start"
-                                    Margin="-60,0,0,0"
-                                    SelectedIndexChanged="PkrPlayerLuck_SelectedIndexChanged"/>
+                                    SelectedIndexChanged="PkrPlayerLuck_SelectedIndexChanged" />
                             </Grid>
 
-                            <Label HeightRequest="25"/>
+                            <Label HeightRequest="25" />
 
                         </StackLayout>
                     </ScrollView>

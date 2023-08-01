@@ -45,7 +45,7 @@
                 Stroke="#F5F6F1"
                 StrokeShape="Ellipse" />
             <Grid
-                x:Name="AllyWord"
+                x:Name="AllyEffectVisual"
                 Grid.Row="2"
                 Grid.RowSpan="2"
                 Grid.Column="0"
@@ -85,6 +85,25 @@
                         <Image x:Name="ImgAllyEffectInner" />
                     </Border>
                 </Grid>
+            </Grid>
+            <Grid
+                x:Name="AllyWord"
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Margin="0,-80,0,-7"
+                RowSpacing="-8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <Image
                     x:Name="ImgAllyType1"
                     Grid.Row="0"
@@ -135,12 +154,12 @@
                     Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="4"
-                    FontSize="52"
                     FontFamily="MPlus1pBold"
+                    FontSize="50"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    VerticalOptions="FillAndExpand" />
+                    VerticalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center" />
             </Grid>
             <HorizontalStackLayout
                 Grid.Row="3"
@@ -244,7 +263,7 @@
                 Stroke="#F5F6F1"
                 StrokeShape="Ellipse" />
             <Grid
-                x:Name="FoeWord"
+                x:Name="FoeEffectVisual"
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Grid.Column="1"
@@ -285,6 +304,26 @@
                         <Image x:Name="ImgFoeEffectInner" />
                     </Border>
                 </Grid>
+            </Grid>
+            <Grid
+                x:Name="FoeWord"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="0,-20,0,-27"
+                ColumnSpacing="0"
+                RowSpacing="-20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <Image
                     x:Name="ImgFoeType1"
                     Grid.Row="0"
@@ -332,15 +371,15 @@
                 </Border>
                 <Label
                     x:Name="LblFoeWord"
-                    FontSize="52"
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="4"
                     FontFamily="MPlus1pBold"
+                    FontSize="50"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
                     VerticalOptions="FillAndExpand"
-                    VerticalTextAlignment="Center"/>
+                    VerticalTextAlignment="Center" />
             </Grid>
             <HorizontalStackLayout
                 Grid.Row="0"
@@ -506,9 +545,9 @@
                 BackgroundColor="Transparent"
                 Clicked="BtnRegisterWord_Clicked"
                 HeightRequest="40"
+                IsEnabled="False"
                 Opacity="0"
                 Rotation="45"
-                IsEnabled="False"
                 Source="paper_plane.png" />
         </HorizontalStackLayout>
         <Label
@@ -565,6 +604,328 @@
         </Grid>
         <!--#endregion-->
 
+        
         <!--#endregion-->
+
+        <!--#region Situation Modal-->
+        <Border
+            x:Name="SituationModal"
+            Grid.RowSpan="6"
+            Margin="40"
+            Background="White"
+            IsVisible="False"
+            Opacity="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 30,30,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.12*" />
+                    <RowDefinition Height="0.6*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="0.2*" />
+                    <RowDefinition Height="0.25*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.6*" />
+                </Grid.RowDefinitions>
+                <Label
+                    x:Name="LblFoeNameSituationModal"
+                    Grid.Row="1"
+                    Margin="10,0,0,0"
+                    FontAttributes="Bold"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    HorizontalOptions="Start"
+                    Text="あいて"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblAllyNameSituationModal"
+                    Grid.Row="1"
+                    Margin="0,0,10,0"
+                    FontAttributes="Bold"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    HorizontalOptions="End"
+                    Text="じぶん"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="2"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="こうげき"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="2"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="こうげき"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblFoeATKSituationModal"
+                    Grid.Row="3"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="0.5倍"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblAllyATKSituationModal"
+                    Grid.Row="3"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="1.0倍"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="5"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="ぼうぎょ"
+                    VerticalOptions="Center" />
+                <Label
+                    Grid.Row="5"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="ぼうぎょ"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblFoeDEFSituationModal"
+                    Grid.Row="6"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    Text="1.0倍"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblAllyDEFSituationModal"
+                    Grid.Row="6"
+                    Margin="0,0,10,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="End"
+                    Text="1.0倍"
+                    VerticalOptions="Center" />
+                <Label
+                    x:Name="LblOtherPlayersWordNameSituationModal"
+                    Grid.Row="8"
+                    Margin="10,0,0,0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center" />
+                <FlexLayout
+                    x:Name="FlexWordTypes"
+                    Grid.Row="9"
+                    Margin="10,0,10,10"
+                    AlignItems="Start"
+                    VerticalOptions="Start" />
+                <Button
+                    x:Name="BtnCloseSituationModal"
+                    Grid.Row="10"
+                    BackgroundColor="#448EC6"
+                    Clicked="BtnCloseSituationModal_Clicked"
+                    CornerRadius="0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    Text="とじる" />
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Ability Modal-->
+        <Border
+            x:Name="AbilityModal"
+            Grid.RowSpan="6"
+            Margin="0,30,0,40"
+            Background="White"
+            IsVisible="False"
+            Opacity="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 0,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.28*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="0.5*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.75*" />
+                </Grid.RowDefinitions>
+                <Label
+                    x:Name="LblChangedAbilityModal"
+                    Grid.Row="0"
+                    Padding="10,0,10,0"
+                    Background="#6495ED"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="16"
+                    HorizontalOptions="FillAndExpand"
+                    Opacity="0"
+                    Text="とくせいを変更した！"
+                    TextColor="White"
+                    VerticalOptions="FillAndExpand" />
+                <Grid Grid.Row="1" Margin="10,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="0.8*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        Text="相手"
+                        VerticalOptions="End" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="End"
+                        Text="自分"
+                        VerticalOptions="End" />
+                    <Label
+                        x:Name="LblFoeAbilityNameAbilityModal"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Background="#DCDADC"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Start"
+                        Text="むきむき"
+                        VerticalOptions="Center" />
+                    <Label
+                        x:Name="LblAllyAbilityNameAbilityModal"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Background="#DCDADC"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="End"
+                        Text="ロックンロール"
+                        VerticalOptions="Center" />
+                    <Label
+                        x:Name="LblFoeAbilityDescAbilityModal"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="Start"
+                        Text="暴力タイプの言葉を使っても攻撃力がすこししか下がらなくなる"
+                        VerticalOptions="CenterAndExpand" />
+                    <Label
+                        x:Name="LblAllyAbilityDescAbilityModal"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        FontFamily="MPlus1pRegular"
+                        FontSize="16"
+                        HorizontalOptions="End"
+                        Text="芸術タイプの言葉を使うとダメージを与える代わりに攻撃力がぐーんと上がる"
+                        VerticalOptions="CenterAndExpand" />
+
+                </Grid>
+                <HorizontalStackLayout Grid.Row="3" Margin="10">
+                    <Label
+                        x:Name="LblCountAbilityModal"
+                        Grid.Row="3"
+                        FontFamily="MPlus1pBold"
+                        FontSize="16"
+                        Text="タップしてとくせいを変える" />
+                </HorizontalStackLayout>
+                <ScrollView Grid.Row="4">
+                    <StackLayout>
+                        <FlexLayout x:Name="FlexChangingAbilityModal" Wrap="Wrap" />
+                    </StackLayout>
+                </ScrollView>
+                <Button
+                    x:Name="BtnCloseAbilityModal"
+                    Grid.Row="6"
+                    BackgroundColor="#448Ec6"
+                    Clicked="BtnCloseAbilityModal_Clicked"
+                    CornerRadius="0"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="20"
+                    Text="とじる" />
+            </Grid>
+
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Escape Modal-->
+        <Border
+            x:Name="EscapeModal"
+            Grid.RowSpan="6"
+            Margin="220"
+            Background="White"
+            IsVisible="False"
+            Opacity="0"
+            Stroke="Transparent"
+            StrokeShape="RoundRectangle 20,20,20,20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="25"
+                    HorizontalOptions="Center"
+                    Text="逃げますか？"
+                    VerticalOptions="Center" />
+                <Button
+                    x:Name="BtnEndBattle"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="20"
+                    Background="#448EC6"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="18"
+                    Text="逃げる"
+                    Clicked="BtnEndBattle_Clicked"/>
+                <Button
+                    x:Name="BtnCloseEscapeModal"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="20"
+                    BackgroundColor="#E9E9E9"
+                    BorderColor="Transparent"
+                    FontFamily="MPlus1pRegular"
+                    FontSize="18"
+                    Text="つづける"
+                    TextColor="Black"
+                    Clicked="BtnCloseEscapeModal_Clicked"/>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+        
     </Grid>
 </ContentPage>

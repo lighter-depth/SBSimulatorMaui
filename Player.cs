@@ -409,7 +409,7 @@ public class Player
         try
         {
             var data = textData.Split('#');
-            return new Player
+            var player = new Player
             {
                 Name = data[0],
                 HP = int.Parse(data[1]),
@@ -421,6 +421,7 @@ public class Player
                 State = (PlayerState)int.Parse(data[7]),
                 Proceeding = (Proceeds)int.Parse(data[8]),
             };
+            return player;
         }
         catch 
         {
@@ -429,11 +430,7 @@ public class Player
     }
     public void Sync(Player playerData)
     {
-        HP = playerData.HP;
-        MaxHP = playerData.MaxHP;
-        ATKIndex = playerData.ATKIndex;
-        DEFIndex = playerData.DEFIndex;
-        State = playerData.State;
+        Ability = playerData.Ability;
     }
     #endregion
 

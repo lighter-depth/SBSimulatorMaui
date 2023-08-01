@@ -1,3 +1,5 @@
+using Microsoft.Maui.Controls.Shapes;
+
 namespace SBSimulatorMaui;
 
 public partial class OnlineBattlePage : ContentPage
@@ -8,10 +10,10 @@ public partial class OnlineBattlePage : ContentPage
     readonly Action<Order, CancellationTokenSource> EmptyDelegate = (o, c) => { };
     Battle Battle;
     Order OrderBuffer = new();
-    Room PreviousRoom = Room.Empty;
     bool isOrdered = false;
     bool isBeforeInit = true;
     bool deadFlag = false;
+    bool omitFlag = true;
     string orderedAbilityName = string.Empty;
     static readonly Dictionary<Notice, string> SoundDic = new()
     {
@@ -80,6 +82,7 @@ public partial class OnlineBattlePage : ContentPage
             if (ct.IsCancellationRequested) return;
             await OnMatch(ct);
             await InitBattle();
+            InitAbilityModal();
             if (Server.IsHost)
             {
                 ShowWordEntry();
@@ -91,6 +94,7 @@ public partial class OnlineBattlePage : ContentPage
                 LblEntryHider.Text = string.Empty;
                 LblAuxInfo.Opacity = 1;
                 LblAuxInfo.Text = "相手を待っています";
+                omitFlag = false;
                 await WaitUntilFoeActionAsync(ct);
             }
             isBeforeInit = false;
@@ -127,7 +131,35 @@ public partial class OnlineBattlePage : ContentPage
         await Task.Delay(200, ct);
         SBAudioManager.PlaySound(SBOptions.BattleBgm);
         isBattleBegan = true;
-        await ShowInitialCharAsync();
+        ShowInitialChar();
+        Observe();
+    }
+    private async void Observe()
+    {
+        await Task.Run(async () =>
+        {
+            while (!Cancellation.IsCancellationRequested)
+            {
+                await Task.Delay(5000);
+                await Server.ForceReadAsync();
+                if (Server.CurrentRoom.Header == RoomState.Empty)
+                {
+                    await OnFoeFleeingAsync();
+                    break;
+                }
+            }
+        });
+    }
+    private async Task OnFoeFleeingAsync()
+    {
+        Dispatcher.Dispatch(() =>
+        {
+            HideWordEntry();
+            LblAuxInfo.Text = "相手が諦めました";
+            LblEntryHider.Text = "相手との勝負に勝った！";
+        });
+        await Server.CancelAsync();
+        Cancellation.Cancel();
     }
     private async Task InitBattle()
     {
@@ -156,6 +188,70 @@ public partial class OnlineBattlePage : ContentPage
         SBOptions.Random = new(Server.CurrentRoom.Seed);
         LblAuxInfo.Text = Battle.IsPlayer1sTurn ? $"{Battle.Player1.Name} のターンです" : $"{Battle.Player2.Name} のターンです";
     }
+    private void InitAbilityModal()
+    {
+        var abilities = SBOptions.AllowCustomAbility ? AbilityManager.Abilities : AbilityManager.CanonAbilities;
+        foreach (var i in abilities)
+        {
+            var bdrFrame = new Border
+            {
+                StyleId = i.ToString(),
+                Background = Color.FromArgb("EFE8E8"),
+                WidthRequest = 70,
+                HeightRequest = 75,
+                Stroke = Colors.Transparent,
+                StrokeShape = new RoundRectangle { CornerRadius = 10 },
+                Margin = new Thickness(1, 1, 1, 1)
+            };
+            var grid = new Grid
+            {
+                VerticalOptions = LayoutOptions.Start,
+                WidthRequest = 70,
+                HeightRequest = 75
+            };
+            var btn = new ImageButton
+            {
+                WidthRequest = 60,
+                HeightRequest = 60,
+                Source = i.ImgFile,
+                Background = Colors.Transparent,
+                VerticalOptions = LayoutOptions.Start
+            };
+            var bdrName = new Border
+            {
+                VerticalOptions = LayoutOptions.End,
+                Background = Colors.White,
+                Stroke = Colors.Transparent,
+                StrokeShape = new RoundRectangle { CornerRadius = 20 }
+            };
+            var lbl = new Label
+            {
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center,
+                HorizontalTextAlignment = TextAlignment.Center,
+                FontFamily = "MPlus1pRegular",
+                FontSize = 10,
+                Text = i.ToString(),
+                LineBreakMode = LineBreakMode.NoWrap
+            };
+            bdrName.Content = lbl;
+            grid.Add(btn);
+            grid.Add(bdrName);
+            bdrFrame.Content = grid;
+            FlexChangingAbilityModal.Add(bdrFrame);
+        }
+        var index = 0;
+        foreach (var i in FlexChangingAbilityModal)
+        {
+            var bdr = i as Border;
+            var grid = bdr.Content as Grid;
+            var btn = grid[0] as ImageButton;
+            var ability = abilities[index];
+            btn.Clicked += (sender, e) => OrderChangeAbility(ability.ToString(), PlayerSelector.Player1);
+            index++;
+        }
+        ReloadAbilityModalTexts();
+    }
     private void ReloadHPTexts()
     {
         LblAllyHP.Text = $"{Battle.Player1.HP}/{Battle.Player1.MaxHP}";
@@ -165,20 +261,20 @@ public partial class OnlineBattlePage : ContentPage
     {
         return await Task.Run(async () =>
         {
-            while (true)
-            {
-                if (isOrdered) break;
-            }
+            while (true) if (isOrdered) break;
             isOrdered = false;
             await Server.ForceReadAsync();
-            //SyncPlayerInfo();
+            await SyncPlayerInfo();
             return OrderBuffer;
         });
     }
     private async Task Out(List<AnnotatedString> list)
     {
-        if(!Battle.IsPlayer1sTurn) await OutPlayerInfoAsync();
+        await ReloadSituationModal();
+        SetBdrStrokeAbilityModal();
+        if (!Battle.IsPlayer1sTurn) await OutPlayerInfoAsync();
         if (Battle.CurrentOrderType == OrderType.Action) await OutActionOrder(list);
+        if (Battle.CurrentOrderType == OrderType.Change) OutChangeOrder(list);
     }
     private void ShowWordEntry()
     {
@@ -252,34 +348,35 @@ public partial class OnlineBattlePage : ContentPage
             WordEntry.Placeholder = $"「{Battle.NextChar}」からはじまることば";
             WordEntry.Focus();
         }
-        if (!Battle.IsPlayer1sTurn) 
+        if (!Battle.IsPlayer1sTurn)
         {
             HideWordEntry();
             LblAuxInfo.Opacity = 1;
             LblAuxInfo.Text = "相手を待っています";
-            await WaitUntilFoeActionAsync(Cancellation.Token); 
+            FireWaiting(Cancellation.Token);
         }
     }
-
+    private void OutChangeOrder(List<AnnotatedString> list)
+    {
+        foreach (var i in list)
+            if (i.Notice is Notice.Warn or Notice.Caution)
+            {
+                ShowLblChangedAbilityModal(i.Text);
+                return;
+            }
+        SetBdrStrokeAbilityModal();
+        ShowLblChangedAbilityModal("とくせいを変更した！");
+        if (!isBeforeInit) SBAudioManager.PlaySound("concent");
+        ReloadAbilityModalTexts();
+    }
+    private async void FireWaiting(CancellationToken ct) => await WaitUntilFoeActionAsync(ct);
     private async Task WaitUntilFoeActionAsync(CancellationToken ct)
     {
-        PreviousRoom = Server.CurrentRoom with { };
-        do
+        while (true)
         {
             try
             {
-                await Task.Run(async () =>
-                {
-                    while (!ct.IsCancellationRequested)
-                    {
-                        await Task.Delay(3000, ct);
-                        await Server.ForceReadAsync();
-                        if (Server.IsHost
-                            && PreviousRoom.Player2Info != Server.CurrentRoom.Player2Info
-                         || !Server.IsHost
-                            && PreviousRoom.Player1Info != Server.CurrentRoom.Player1Info) break;
-                    }
-                }, ct);
+                await waitingLoopAsync();
             }
             catch { return; }
             if (ct.IsCancellationRequested) return;
@@ -288,8 +385,18 @@ public partial class OnlineBattlePage : ContentPage
             var player2WordName = player2info.CurrentWord.Name;
             if (string.IsNullOrWhiteSpace(player2WordName)) continue;
             SetOrder(new(player2WordName));
+            break;
         }
-        while (false);
+        omitFlag = true;
+        async Task waitingLoopAsync()
+        {
+            while (!ct.IsCancellationRequested)
+            {
+                await Task.Delay(3000, ct);
+                await Server.ForceReadAsync();
+                if (IsReloadRequired()) break;
+            }
+        }
     }
 
     private static List<AnnotatedString> GetMessages(List<AnnotatedString> list)
@@ -357,6 +464,7 @@ public partial class OnlineBattlePage : ContentPage
     private async Task ShowWordAsync(Grid wordGrid, Label wordLbl, Image type1Img, Border type1Bdr, Label type1Lbl, Image type2Img, Border type2Bdr, Label type2Lbl)
     {
         await wordGrid.FadeTo(0, 200, Easing.Linear);
+        PaintWordSurface(wordLbl);
         type1Img.Opacity = 1;
         type1Bdr.Opacity = 1;
         type1Lbl.Opacity = 1;
@@ -393,16 +501,15 @@ public partial class OnlineBattlePage : ContentPage
             type1Img.Source = TypeToImg(word.Type1);
             type2Img.Source = TypeToImg(word.Type2);
         }
-        PaintWordSurface(wordLbl);
         await wordGrid.FadeTo(1, 200, Easing.Linear);
         if (!word.IsEmpty) SBAudioManager.PlaySound(TypeToSymbol(word.Type1));
     }
     private void PaintWordSurface(Label wordLbl)
     {
         if (isBeforeInit) return;
-        const double DEFAULT_FONT_SIZE = 52;
+        const double DEFAULT_FONT_SIZE = 50;
         var name = Battle.OtherPlayer.CurrentWord.Name;
-        var fontSize = name.Length < 10 ? 1 : (double)9 / name.Length;
+        var fontSize = name.Length < 9 ? 1 : (double)9 / name.Length;
         wordLbl.Text = name;
         wordLbl.FontSize = DEFAULT_FONT_SIZE * fontSize;
     }
@@ -475,36 +582,29 @@ public partial class OnlineBattlePage : ContentPage
             _ => null
         };
     }
-    private void SyncPlayerInfo()
+    private async Task SyncPlayerInfo()
     {
-        var (player1Skl, player2Skl) = GetPlayerInfo();
-        Battle.Player2.Sync(player2Skl);
+        await Server.ForceReadAsync();
+        Battle.Player2.Sync(GetPlayerInfo().Player2Skl);
     }
-    private async Task ShowInitialCharAsync()
+    private async void ShowInitialChar()
     {
         LblInitialChar.Text = Server.CurrentRoom.InitialChar;
         await BdrInitialChar.FadeTo(1, 250, Easing.Linear);
+        await Task.Delay(6000);
+        await BdrInitialChar.FadeTo(0, 250, Easing.Linear);
     }
 
-    private void WordEntry_Completed(object sender, EventArgs e) 
+    private void WordEntry_Completed(object sender, EventArgs e)
     {
-        BtnRegisterWord_Clicked(sender, e); 
+        BtnRegisterWord_Clicked(sender, e);
     }
 
-    private void BtnSituation_Clicked(object sender, EventArgs e)
-    {
+    private async void BtnSituation_Clicked(object sender, EventArgs e) => await ShowModal(SituationModal);
 
-    }
+    private async void BtnAbility_Clicked(object sender, EventArgs e) => await ShowModal(AbilityModal);
 
-    private void BtnAbility_Clicked(object sender, EventArgs e)
-    {
-
-    }
-
-    private void BtnEscape_Clicked(object sender, EventArgs e)
-    {
-
-    }
+    private async void BtnEscape_Clicked(object sender, EventArgs e) => await ShowModal(EscapeModal);
     private async Task ShowModal(Border modal)
     {
         SBAudioManager.PlaySound("pera");
@@ -539,4 +639,118 @@ public partial class OnlineBattlePage : ContentPage
         isOrdered = true;
     }
 
+    private bool IsReloadRequired()
+    {
+        if (omitFlag)
+        {
+            omitFlag = false;
+            return false;
+        }
+        var serverInfo = GetPlayerInfo().Player2Skl.Serialize();
+        var clientInfo = Battle.Player2.Serialize();
+        return serverInfo != clientInfo;
+    }
+
+
+    private async void BtnEndBattle_Clicked(object sender, EventArgs e)
+    {
+        SBAudioManager.StopSound(SBOptions.BattleBgm);
+        await Server.CancelAsync();
+        Cancellation.Cancel();
+        Battle.Dispose();
+        SBAudioManager.CancelAudio();
+        while (Navigation.NavigationStack.Count > 2)
+        {
+            Navigation.RemovePage(Navigation.NavigationStack[1]);
+        }
+        await Shell.Current.GoToAsync($"../{nameof(OnlineMatchUpPage)}", false);
+
+        // bgm 再生開始用の遅延
+        await Task.Delay(500);
+        SBAudioManager.PlaySound(SBOptions.MainBgm);
+    }
+
+    private async void BtnCloseEscapeModal_Clicked(object sender, EventArgs e) => await HideModal(EscapeModal);
+
+    private async void BtnCloseSituationModal_Clicked(object sender, EventArgs e) => await HideModal(SituationModal);
+    private async Task ReloadSituationModal()
+    {
+        await Server.ForceReadAsync();
+        var (player1, player2) = GetPlayerInfo();
+        LblAllyNameSituationModal.Text = player1.Name;
+        LblFoeNameSituationModal.Text = player2.Name;
+        LblAllyATKSituationModal.Text = $"{player1.ATK,0:0.0#}倍";
+        LblAllyDEFSituationModal.Text = $"{player1.DEF,0:0.0#}倍";
+        LblFoeATKSituationModal.Text = $"{player2.ATK,0:0.0#}倍";
+        LblFoeDEFSituationModal.Text = $"{player2.DEF,0:0.0#}倍";
+        LblOtherPlayersWordNameSituationModal.Text = player2.CurrentWord.Name == string.Empty ? string.Empty : $"{player2.CurrentWord.Name} の弱点";
+        SetFlexWordTypes();
+    }
+    private void SetFlexWordTypes()
+    {
+        FlexWordTypes.Clear();
+        var types = Word.GetWeakTypes(GetPlayerInfo().Player2Skl.CurrentWord);
+        if (types.Count == 0) return;
+        foreach (var i in types)
+        {
+            var img = new Image
+            {
+                Source = TypeToImg(i),
+                WidthRequest = 80
+            };
+            var lbl = new Label
+            {
+                Text = i.TypeToString(),
+                FontFamily = "MPlus1pRegular",
+                FontSize = 12,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Start,
+                VerticalTextAlignment = TextAlignment.Start,
+                Margin = new Thickness(0, -10, 0, 0)
+            };
+            var vsl = new VerticalStackLayout { Spacing = 0 };
+            vsl.Add(img);
+            vsl.Add(lbl);
+            FlexWordTypes.Add(vsl);
+        }
+    }
+
+    private async void BtnCloseAbilityModal_Clicked(object sender, EventArgs e) => await HideModal(AbilityModal);
+
+    private void ReloadAbilityModalTexts()
+    {
+        LblCountAbilityModal.Text = "タップしてとくせいを変える";
+        if (Battle.IsAbilChangeable) LblCountAbilityModal.Text += $"(あと{Battle.Player1.RemainingAbilChangingCount}回)";
+        LblAllyAbilityNameAbilityModal.Text = Battle.Player1.Ability.ToString();
+        LblFoeAbilityNameAbilityModal.Text = "ひみつ";
+        LblAllyAbilityDescAbilityModal.Text = Battle.Player1.Ability.Description;
+        LblFoeAbilityDescAbilityModal.Text = "相手もきみのとくせいを知らないぞ";
+    }
+
+    private void OrderChangeAbility(string abilityName, PlayerSelector selector)
+    {
+        orderedAbilityName = abilityName;
+        SetOrder(new(OrderType.Change, abilityName, selector));
+    }
+
+    private void SetBdrStrokeAbilityModal()
+    {
+        var abilityName = Battle.Player1.Ability.ToString();
+        foreach (var i in FlexChangingAbilityModal)
+        {
+            var bdr = i as Border;
+            bdr.Stroke = Colors.Transparent;
+            if (bdr.StyleId == abilityName)
+            {
+                bdr.Stroke = Colors.Black;
+            }
+        }
+    }
+    private async void ShowLblChangedAbilityModal(string text)
+    {
+        LblChangedAbilityModal.Text = text;
+        LblChangedAbilityModal.Opacity = 1;
+        await Task.Delay(1500);
+        LblChangedAbilityModal.Opacity = 0;
+    }
 }

@@ -19,15 +19,34 @@ internal static class Server
 
     static Server()
     {
-        ServerConfig = Encoding.UTF8.GetString(new byte[]
-        {
-            104, 116, 116, 112,
-            58, 47, 47, 112,
-            108, 115, 107, 46,
-            110, 101, 116, 47,
-            120, 98, 97, 109,
-            111, 103, 117, 115
-        });
+        ServerConfig = SerializationService.CallSerializer
+        (
+            0b01101000,
+            0b01110100,
+            0b01110100,
+            0b01110000,
+            0b00111010,
+            0b00101111,
+            0b00101111,
+            0b01110000,
+            0b01101100,
+            0b01110011,
+            0b01101011,
+            0b00101110,
+            0b01101110,
+            0b01100101,
+            0b01110100,
+            0b00101111,
+            0b01111000,
+            0b01100010,
+            0b01100001,
+            0b01101101,
+            0b01101111,
+            0b01100111,
+            0b01110101,
+            0b01110011
+        );
+
     }
 
     public static void Initialize()
@@ -41,8 +60,6 @@ internal static class Server
     {
         try
         {
-
-
             while (!HasEntered && !ct.IsCancellationRequested)
             {
                 HasEntered = await TryFindRoomAsync(ct);
@@ -218,4 +235,8 @@ internal static class Server
             throw;
         }
     }
+}
+static file class SerializationService
+{
+    internal static string CallSerializer(params byte[] data) => Encoding.UTF8.GetString(data);
 }
